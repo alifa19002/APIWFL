@@ -20,6 +20,7 @@ class CreateReportsTable extends Migration
             //$table->foreignId('postingan_id')->references('id')->on('posts');
             $table->foreignId('postingan_id')->constrained('posts');
             $table->string('alasan');
+            $table->enum('is_approved', array('0', '1'))->default('0');
             $table->timestamps();
         });
     }

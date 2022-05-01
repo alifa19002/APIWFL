@@ -15,13 +15,12 @@ class CreateCompaniesTable extends Migration
     {
         Schema::create('companies', function (Blueprint $table) {
             $table->id();
-            //$table->foreignId('user_id')->references('id')->on('users');
-            $table->foreignId('user_id')->constrained('users');
             $table->string('nama_perusahaan');
             $table->string('namaCP');
             $table->string('noCP');
             $table->string('alamat');
             $table->string('email')->unique();
+            $table->enum('is_approved', array('0', '1'))->default('0');
             $table->timestamps();
         });
     }

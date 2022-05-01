@@ -25,10 +25,14 @@ class CreateUsersTable extends Migration
             $table->string('foto_profil')->nullable();
             $table->string('perusahaan')->nullable();
             $table->string('posisi')->nullable();
-            $table->enum('role', array('0', '1', '2'))->default('0');
-            // default: 0 (user), 1 (perusahaan), 2 (admin)
+            $table->enum('role', array('0', '1', '2'))->default('0'); // default: 0 (user), 1 (perusahaan), 2 (admin)
+            $table->unsignedBigInteger('company_id')->nullable();
             $table->rememberToken();
             $table->timestamps();
+        });
+
+        Schema::table('users', function ($table) {
+            $table->foreign('company_id')->references('id')->on('companies')->onUpdate('cascade')->onDelete('cascade');
         });
     }
 

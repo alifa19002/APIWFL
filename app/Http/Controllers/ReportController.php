@@ -16,14 +16,40 @@ class ReportController extends Controller
             'message' => NULL
         ]);
     }
+
     public function store(Request $request)
     {
-            Report::create([
-                'alasan' => request('alasan'),
-                'user_id' => request('user_id'),
-                'postingan_id' => request('postingan_id')
-            ]);
+        Report::create([
+            'alasan' => request('alasan'),
+            'user_id' => request('user_id'),
+            'postingan_id' => request('postingan_id')
+        ]);
 
-            return redirect('/posts');
+        return redirect('/posts');
+    }
+
+    public function edit($id)
+    {
+        return view('reports.editReport', [
+            'title' => 'Edit Laporan',
+            'report' => Report::where('id', $id)->first()
+        ]);
+    }
+
+    public function update(Request $request, Report $report)
+    {
+        $rules = [
+            'alasan' => 'required|max:255',
+            'is_approved' => 'required',
+        ];
+        $validatedData = $request->validate($rules);
+        Report::where('id', $report->id)->update($validatedData);
+        return redirect('/admin');
+    }
+
+    public function destroy(Report $report)
+    {
+        Report::destroy($report->id);
+        return redirect('/admin')->with('success', 'Report has been deleted!');
     }
 }

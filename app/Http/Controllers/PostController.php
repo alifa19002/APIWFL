@@ -15,10 +15,16 @@ class PostController extends Controller
      */
     public function index()
     {
-        return view('Posts.posts', [
-            "title" => "Sharing",
-            'posts' => Post::latest()->filter(request(['search']))->paginate(10)->withQueryString()
-        ]);
+        // return view('Posts.posts', [
+        //     "title" => "Sharing",
+        //     'posts' => Post::latest()->filter(request(['search']))->paginate(10)->withQueryString()
+        // ]);
+        $posts = Post::latest()->filter(request(['search']))->paginate(10)->withQueryString();
+        return response()->json([
+            'success' => true,
+            'message' => 'Semua Postingan Sharing',
+            'data' => $posts
+        ], 200);
     }
     /**
      * Show the form for creating a new resource.
@@ -45,11 +51,11 @@ class PostController extends Controller
                 'judul' => request('judul'),
                 'deskripsi' => request('deskripsi'),
                 'user_id' => request('user_id')
-                //'slug' => Str::replace(' ', '-', Str::lower(request('nama_event')))
             ]);
 
             return redirect('/uploadpost')->with('success', 'Postingan diunggah.');
     }
+
 
     /**
      * Display the specified resource.
@@ -57,14 +63,29 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Post $post)
+    public function show($id)
     {
-        return view('Posts.view', [
-            'title' => 'Detail Post',
-            'active' => 'post',
-            'post' => $post,
-            'latest_post' => Post::latest()->get(),
-        ]);
+        // return view('Posts.view', [
+        //     'title' => 'Detail Post',
+        //     'active' => 'post',
+        //     'post' => $post,
+        //     'latest_post' => Post::latest()->get(),
+        // ]);
+        $post = Post::whereId($id)->first();
+
+        if ($post) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Detail Post',
+                'data'    => $post
+            ], 200);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Postingan Tidak Ditemukan!',
+                'data'    => ''
+            ], 404);
+        }
     }
 
     /**
@@ -109,8 +130,9 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Post $post)
     {
-        //
+        Post::destroy($post->id);
+        return redirect('/posts')->with('success', 'Post has been deleted!');
     }
 }

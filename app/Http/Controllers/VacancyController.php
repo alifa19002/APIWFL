@@ -49,7 +49,28 @@ class VacancyController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $vacancy = Vacancy::create([
+            'company_id' => $request->input('company_id'),
+            'posisi' => $request->input('posisi'),
+            'jobdesc' => $request->input('jobdesc'),
+            'kriteria' => $request->input('kriteria'), 
+            'domisili' => $request->input('domisili'),
+            'min_pengalaman' => $request->input('min_pengalaman'),
+            'insentif' => $request->input('insentif'),
+            'link_pendaftaran' => $request->input('link_pendaftaran'),
+        ]);
+
+        if ($vacancy) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Post Berhasil Disimpan!',
+            ], 200);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Post Gagal Disimpan!',
+            ], 400);
+        }
     }
 
     /**
@@ -101,9 +122,30 @@ class VacancyController extends Controller
      * @param  \App\Models\Vacancy  $vacancy
      * @return \Illuminate\Http\Response
      */
+
+    //update masi bingung
     public function update(Request $request, Vacancy $vacancy)
     {
-        //
+        $rules = [
+            'posisi' => 'required|max:255',
+            'jobdesc' => 'required',
+            'company_id' => 'required'
+        ];
+        $validatedData = $request->validate($rules);
+        $validatedData["company_id"] = auth()->user()->id;
+
+        $vacancy = Vacancy::where('id', $vacancy->id)->update($validatedData);
+        if ($vacancy) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Post Berhasil Diupdate!',
+            ], 200);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Post Gagal Diupdate!',
+            ], 500);
+        }
     }
 
     /**
@@ -114,6 +156,18 @@ class VacancyController extends Controller
      */
     public function destroy(Vacancy $vacancy)
     {
-        //
+        $vacancy = Vacancy::destroy($vacancy->id);
+        if ($vacancy) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Vacancy has been deleted!',
+            ], 200);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Delete Vacancy has been failed!',
+            ], 500);
+        }
+        
     }
 }

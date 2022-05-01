@@ -28,14 +28,44 @@ class DatabaseSeeder extends Seeder
             'jk' => 'P',
         ]);
 
+        Company::create([
+            'nama_perusahaan' => 'PT Cipta Karya Indonesia',
+            'namaCP' => 'Indah',
+            'noCP' => '0823425252',
+            'alamat' => 'Jakarta Selatan',
+            'email' => 'company1@gmail.com',
+            'is_approved' => '0',
+        ]);
+
+        Company::create([
+            'nama_perusahaan' => 'PT Company Indonesia',
+            'namaCP' => 'Putra',
+            'noCP' => '0823425252',
+            'alamat' => 'Tangerang',
+            'email' => 'company@gmail.com',
+            'is_approved' => '1',
+        ]);
+
         User::create([
-            'nama' => 'PT Company Indoneisa',
+            'nama' => 'PT Company Indonesia',
             'username' => 'company1',
             'email' => 'company@mail.com',
             'password' => Hash::make('company123'),
             'role' => '1',
             'no_telp' => '0892672872',
             'jk' => 'L',
+            'company_id' => 2,
+        ]);
+
+        User::create([
+            'nama' => 'PT Company Indonesiaa2',
+            'username' => 'company2',
+            'email' => 'company2@mail.com',
+            'password' => Hash::make('company123'),
+            'role' => '1',
+            'no_telp' => '0892672872',
+            'jk' => 'L',
+            'company_id' => 1,
         ]);
 
         User::create([
@@ -46,15 +76,6 @@ class DatabaseSeeder extends Seeder
             'role' => '0',
             'no_telp' => '0892672872',
             'jk' => 'P',
-        ]);
-
-        Company::create([
-            'user_id' => '2',
-            'nama_perusahaan' => 'PT Company Indonesia',
-            'namaCP' => 'Putra',
-            'noCP' => '0823425252',
-            'alamat' => 'Tangerang',
-            'email' => 'company@gmail.com',
         ]);
 
         Vacancy::create([
