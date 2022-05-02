@@ -8,13 +8,13 @@ use Illuminate\Support\Facades\Hash;
 
 class RegisterController extends Controller
 {
-    public function index()
-    {
-        return view('register.index', [
-            'title' => 'Register',
-            'active' => 'register'
-        ]);
-    }
+    // public function index()
+    // {
+    //     return view('register.index', [
+    //         'title' => 'Register',
+    //         'active' => 'register'
+    //     ]);
+    // }
 
     public function store(Request $request)
     {
@@ -31,8 +31,19 @@ class RegisterController extends Controller
         // $validatedData['password'] = bcrypt($validatedData['password']);
         $validatedData['password'] = Hash::make($validatedData['password']);
 
-        User::create($validatedData);
+        $register = User::create($validatedData);
         // $request->session()->flash('success', 'Registration successful, please login!');
-        return redirect('/login')->with('success', 'Registration successful, please login!');
+        // return redirect('/login')->with('success', 'Registration successful, please login!');
+        if ($register) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Registration successful, please login!',
+            ], 200);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Registration failed, try again!',
+            ], 400);
+        }
     }
 }

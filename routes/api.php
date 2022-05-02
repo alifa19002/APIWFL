@@ -18,11 +18,12 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 Route::get('/loker', 'VacancyController@index');
+Route::post('/loker', 'VacancyController@store');
 Route::get('/loker/{id}', 'VacancyController@show');
 Route::delete('/loker/{vacancy:id}', 'VacancyController@destroy');
-Route::post('/loker', 'VacancyController@store');
 // Route::put('/loker', 'VacancyController@update');
-Route::get('/post/{id}', 'PostController@show');
 Route::get('/post', 'PostController@index');
+Route::get('/post/{id}', 'PostController@show');
+
 
 
