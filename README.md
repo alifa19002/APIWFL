@@ -16,7 +16,7 @@
 
 
 ```
-example usage: http://localhost:8000/api/pemesanan
+example usage: http://localhost:8000/api/loker
 run different route: php artisan serve --port=8000
 ```
 
