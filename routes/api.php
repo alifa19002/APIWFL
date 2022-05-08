@@ -24,6 +24,11 @@ Route::delete('/loker/{vacancy:id}', 'VacancyController@destroy');
 // Route::put('/loker', 'VacancyController@update');
 Route::get('/post', 'PostController@index');
 Route::get('/post/{id}', 'PostController@show');
+Route::delete('/post/{id}', 'PostController@destroy');
+Route::post('/register', 'RegisterController@store');
+Route::get('/report/{id}', 'ReportController@index');
+Route::post('/report', 'ReportController@store');
+Route::delete('/report/{id}', 'ReportController@destroy');
 
 
 

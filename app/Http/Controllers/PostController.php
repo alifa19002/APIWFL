@@ -132,7 +132,19 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        Post::destroy($post->id);
-        return redirect('/posts')->with('success', 'Post has been deleted!');
+        // Post::destroy($post->id);
+        // return redirect('/posts')->with('success', 'Post has been deleted!');
+        $post = Post::destroy($post->id);
+        if ($post) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Post has been deleted!',
+            ], 200);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Delete Post has been failed!',
+            ], 500);
+        }
     }
 }
