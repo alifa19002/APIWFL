@@ -12,11 +12,15 @@
 | DELETE      | /loker/{id}     | Delete loker by ID   | Vacancy Controller | checked   |
 | GET         | /post     | Read All   | Post Controller | unchecked   |
 | GET         | /post/{id} | Get Post By ID | Post Controller | unchecked   |
-| POST        | /register | Create New User | Register Controller | unchecked   |
+| POST        | /post | Create New post| Post Controller | unavailable   |
+| PUT         | /post | Update post| Post Controller | unavailable   |
 | DELETE      | /post/{id}     | Delete post by ID   | Post Controller | unchecked   |
+| POST        | /register | Create New User | Register Controller | unchecked   |
 | GET         | /report/{id} | Create report | Report Controller | unchecked   |
 | DELETE      | /report/{id}     | Delete report by ID   | Report Controller | unchecked   |
 | POST        | /report | Create New Report| Report Controller | unchecked   |
+| POST        | /login | Create token auth| Login Controller | unchecked   |
+| POST        | /logout | Delete token auth| Login Controller | unchecked   |
 
 ```
 example usage: http://localhost:8000/api/loker

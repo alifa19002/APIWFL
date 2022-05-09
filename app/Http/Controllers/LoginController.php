@@ -64,7 +64,7 @@ class LoginController extends Controller
     //     $request->session()->regenerateToken();
     //     return redirect('/');
     // }
-    public function logout(Request $request)
+    public function logout()
     {
         // auth()->user()->tokens->delete();
         // $request->user()->currentAccessToken()->delete();

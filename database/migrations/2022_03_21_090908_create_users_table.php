@@ -27,7 +27,6 @@ class CreateUsersTable extends Migration
             $table->string('posisi')->nullable();
             $table->enum('role', array('0', '1', '2'))->default('0'); // default: 0 (user), 1 (perusahaan), 2 (admin)
             $table->unsignedBigInteger('company_id')->nullable();
-            // $table->rememberToken();
             $table->timestamps();
             $table->rememberToken();
         });
