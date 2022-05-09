@@ -3,20 +3,20 @@
 ## List Endpoint
 #### Base url: http://localhost:8000/api
 
-| HTTP Method | Endpoint        | Description         | Location         |
-| ----------- | --------------- | ------------------- |
-| GET         | /loker     | Read All   |
-| GET         | /loker/{id} | Get Vacancy By ID | Vacancy Controller |
-| POST        | /loker | Create New Vacancy| Vacancy Controller |
-| PUT*        | /loker | Update Vacancy| Vacancy Controller |
-| DELETE         | /loker/{id}     | Delete loker by ID   | Vacancy Controller |
-| GET         | /post     | Read All   | Post Controller |
-| GET         | /post/{id} | Get Post By ID | Post Controller |
-| POST         | /register | Create New User | Register Controller |
-| DELETE         | /post/{id}     | Delete post by ID   | Post Controller |
-| GET         | /report/{id} | Create report | Report Controller |
-| DELETE         | /report/{id}     | Delete report by ID   | Report Controller |
-| POST        | /report | Create New Report| Report Controller |
+| HTTP Method | Endpoint        | Description         | Location            | Status              |
+| ----------- | --------------- | ------------------- | ------------------- | ------------------- |
+| GET         | /loker     | Read All   | unchecked   |
+| GET         | /loker/{id} | Get Vacancy By ID | Vacancy Controller | unchecked   |
+| POST        | /loker | Create New Vacancy| Vacancy Controller | unchecked   |
+| PUT*        | /loker | Update Vacancy| Vacancy Controller | unchecked   |
+| DELETE      | /loker/{id}     | Delete loker by ID   | Vacancy Controller | unchecked   |
+| GET         | /post     | Read All   | Post Controller | unchecked   |
+| GET         | /post/{id} | Get Post By ID | Post Controller | unchecked   |
+| POST        | /register | Create New User | Register Controller | unchecked   |
+| DELETE      | /post/{id}     | Delete post by ID   | Post Controller | unchecked   |
+| GET         | /report/{id} | Create report | Report Controller | unchecked   |
+| DELETE      | /report/{id}     | Delete report by ID   | Report Controller | unchecked   |
+| POST        | /report | Create New Report| Report Controller | unchecked   |
 
 ```
 example usage: http://localhost:8000/api/loker
