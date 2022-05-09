@@ -3,7 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+// use Auth;
+use Validator;
 
 class LoginController extends Controller
 {
@@ -15,30 +19,59 @@ class LoginController extends Controller
         ]);
     }
 
-    public function authenticate(Request $request)
-    {
-        $credentials = $request->validate([
-            'email' => 'required|email:dns',
-            'password' => 'required'
-        ]);
+    // public function authenticate(Request $request)
+    // {
+    //     $credentials = $request->validate([
+    //         'email' => 'required|email:dns',
+    //         'password' => 'required'
+    //     ]);
 
-        if (Auth::attempt($credentials)) {
-            $request->session()->regenerate();
-            if (Auth::user()->is_admin == 1) {
-                return redirect()->intended('/dashboard/events');
-            } else {
-                return redirect()->intended('/');
-            }
+    //     if (Auth::attempt($credentials)) {
+    //         $request->session()->regenerate();
+    //         if (Auth::user()->is_admin == 1) {
+    //             return redirect()->intended('/dashboard/events');
+    //         } else {
+    //             return redirect()->intended('/');
+    //         }
+    //     }
+
+    //     return back()->with('loginError', 'Login failed!');
+    // }
+    public function login(Request $request)
+    {   
+        $credentials = $request->validate([
+                    'email' => 'required|email:dns',
+                    'password' => 'required'
+                ]);
+        if (!Auth::attempt($credentials))
+        {
+            return response()
+                ->json(['message' => 'Unauthorized'], 401);
         }
 
-        return back()->with('loginError', 'Login failed!');
+        $user = User::where('email', $request['email'])->firstOrFail();
+
+        $token = $user->createToken('auth_token')->plainTextToken;
+        
+        return response()
+            ->json(['message' => 'Hi '.$user->name.', welcome to home','access_token' => $token, 'token_type' => 'Bearer', ]);
     }
 
+    // public function logout(Request $request)
+    // {
+    //     Auth::logout();
+    //     $request->session()->invalidate();
+    //     $request->session()->regenerateToken();
+    //     return redirect('/');
+    // }
     public function logout(Request $request)
     {
-        Auth::logout();
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-        return redirect('/');
+        // auth()->user()->tokens->delete();
+        // $request->user()->currentAccessToken()->delete();
+        $user = request()->user();
+        $user->tokens()->where('id', $user->currentAccessToken()->id)->delete();
+        return [
+            'message' => 'You have successfully logged out and the token was successfully deleted',
+        ];
     }
 }

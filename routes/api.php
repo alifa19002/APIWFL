@@ -17,6 +17,19 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+//API route for login user
+Route::post('/login', 'LoginController@login');
+
+//Protecting Routes
+Route::group(['middleware' => ['auth:sanctum']], function () {
+    // Route::get('/profile', function(Request $request) {
+    //     return auth()->user();
+    // });
+    // API route for logout user
+    Route::post('/logout', 'LoginController@logout');
+});
+
 Route::get('/loker', 'VacancyController@index');
 Route::post('/loker', 'VacancyController@store');
 Route::get('/loker/{id}', 'VacancyController@show');

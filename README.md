@@ -5,11 +5,11 @@
 
 | HTTP Method | Endpoint        | Description         | Location            | Status              |
 | ----------- | --------------- | ------------------- | ------------------- | ------------------- |
-| GET         | /loker     | Read All   | Vacancy Controller | unchecked   |
-| GET         | /loker/{id} | Get Vacancy By ID | Vacancy Controller | unchecked   |
-| POST        | /loker | Create New Vacancy| Vacancy Controller | unchecked   |
+| GET         | /loker     | Read All   | Vacancy Controller | checked   |
+| GET         | /loker/{id} | Get Vacancy By ID | Vacancy Controller | checked   |
+| POST        | /loker | Create New Vacancy| Vacancy Controller | checked   |
 | PUT*        | /loker | Update Vacancy| Vacancy Controller | unchecked   |
-| DELETE      | /loker/{id}     | Delete loker by ID   | Vacancy Controller | unchecked   |
+| DELETE      | /loker/{id}     | Delete loker by ID   | Vacancy Controller | checked   |
 | GET         | /post     | Read All   | Post Controller | unchecked   |
 | GET         | /post/{id} | Get Post By ID | Post Controller | unchecked   |
 | POST        | /register | Create New User | Register Controller | unchecked   |
