@@ -5,7 +5,7 @@
 
 | HTTP Method | Endpoint        | Description         | Location            | Status              |
 | ----------- | --------------- | ------------------- | ------------------- | ------------------- |
-| GET         | /loker     | Read All   | unchecked   |
+| GET         | /loker     | Read All   | Vacancy Controller | unchecked   |
 | GET         | /loker/{id} | Get Vacancy By ID | Vacancy Controller | unchecked   |
 | POST        | /loker | Create New Vacancy| Vacancy Controller | unchecked   |
 | PUT*        | /loker | Update Vacancy| Vacancy Controller | unchecked   |
