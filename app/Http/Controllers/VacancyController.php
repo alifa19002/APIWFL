@@ -30,14 +30,14 @@ class VacancyController extends Controller
         ->filter(request(['search']))->paginate(6);
 
         if($lokers->lastPage() > 1){
-            $getLokers = ['current_page' => $lokers->currentPage(), 'data' => $lokers->unique('pertanyaan_id'), 'next_page_url' => 'http://127.0.0.1:8000/api/forum/timeline?'.($lokers->currentPage()+1)];
+            $getLokers = ['current_page' => $lokers->currentPage(), 'data' => $lokers->unique('id'), 'next_page_url' => 'http://127.0.0.1:8000/api/forum/timeline?'.($lokers->currentPage()+1)];
         }else{
-            $getLokers = ['current_page' => $lokers->currentPage(), 'data' => $lokers->unique('pertanyaan_id'), 'next_page_url' => NULL];
+            $getLokers = ['current_page' => $lokers->currentPage(), 'data' => $lokers->unique('id'), 'next_page_url' => NULL];
         }
         if($lokers->lastPage() > 1){
-            $getLokers = ['current_page' => $lokers->currentPage(), 'data' => $lokers->unique('pertanyaan_id'), 'next_page_url' => 'http://127.0.0.1:8000/api/forum/timeline?'.($lokers->currentPage()+1)];
+            $getLokers = ['current_page' => $lokers->currentPage(), 'data' => $lokers->unique('id'), 'next_page_url' => 'https://apiwfl.herokuapp.com/api/loker?'.($lokers->currentPage()+1)];
         }else{
-            $getLokers = ['current_page' => $lokers->currentPage(), 'data' => $lokers->unique('pertanyaan_id'), 'next_page_url' => NULL];
+            $getLokers = ['current_page' => $lokers->currentPage(), 'data' => $lokers->unique('id'), 'next_page_url' => NULL];
         }
         return response()->json($getLokers, 200);
     }
