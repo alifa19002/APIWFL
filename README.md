@@ -22,6 +22,11 @@
 | POST        | /login | Create token auth| Login Controller | unchecked   |
 | POST        | /logout | Delete token auth| Login Controller | unchecked   |
 | POST        | /company | Verify New Company | Company Controller | unchecked   |
+| GET         | /admin     | Read All (index)   | Admin Controller | unchecked   |
+| POST         | /admin/company/create     | Create Company User   | Vacancy Controller | unchecked   |
+| GET         | /admin/company/{id}     | Get company detail   | Admin Controller | unchecked   |
+| Delete         | /admin/company/delete{id}     | Delete company   | Admin Controller | unchecked   |
+
 
 ```
 example usage: http://localhost:8000/api/loker

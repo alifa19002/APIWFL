@@ -71,8 +71,19 @@ class AdminController extends Controller
 
         $validatedData['password'] = Hash::make($validatedData['password']);
 
-        User::create($validatedData);
-        return redirect('/admin')->with('success', 'Company account successfully made!');
+        $user = User::create($validatedData);
+        // return redirect('/admin')->with('success', 'Company account successfully made!');
+        if ($user) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Company account successfully made!',
+            ], 200);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Company account failed to create!',
+            ], 400);
+        }
     }
 
     /**
@@ -81,13 +92,27 @@ class AdminController extends Controller
      * @param  \App\Models\Company  $company
      * @return \Illuminate\Http\Response
      */
-    public function show(Company $company)
+    public function show($id)
     {
-        return view('admin.detail-company', [
-            'title' => 'Detail Perusahaan',
-            'active' => 'perusahaan',
-            'company' => $company,
-        ]);
+        // return view('admin.detail-company', [
+        //     'title' => 'Detail Perusahaan',
+        //     'active' => 'perusahaan',
+        //     'company' => $company,
+        // ]);
+        $company = Company::whereId($id)->first();
+        if ($company!=null) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Detail Perusahaan',
+                'data'    => $company
+            ], 200);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Perusahaan Tidak Ditemukan!',
+                'data'    => ''
+            ], 404);
+        }
     }
 
     /**
@@ -119,8 +144,19 @@ class AdminController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Company $companies)
     {
-        //
+        $company = Company::destroy($companies->id);
+        if ($company) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Company has been deleted!',
+            ], 200);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Delete Company has been failed!',
+            ], 500);
+        }
     }
 }
