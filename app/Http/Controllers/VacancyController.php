@@ -24,10 +24,22 @@ class VacancyController extends Controller
         //     'lokers' => Vacancy::latest()->filter(request(['search']))->paginate(6)->withQueryString()
         // ]);
         // $lokers = Vacancy::latest()->filter(request(['search']))->paginate(6)->withQueryString();
-        $lokers = Vacancy::select('vacancies.id', 'vacancies.company_id', 'vacancies.posisi', 'vacancies.insentif', 'vacancies.min_pengalaman', 'vacancies.jobdesc', 'vacancies.kriteria', 'vacancies.link_pendaftaran', 'vacancies.domisili', 'vacancies.insentif', 'vacancies.created_at', 'vacancies.updated_at', 'companies.nama_perusahaan', 'users.foto_profil')->join('companies', 'companies.id', '=', 'vacancies.company_id')->join('users', 'users.company_id', '=', 'companies.id')
+        $lokers = Vacancy::select('vacancies.id', 'vacancies.company_id', 'vacancies.posisi', 'vacancies.insentif', 'vacancies.min_pengalaman', 'vacancies.jobdesc', 'vacancies.kriteria', 'vacancies.link_pendaftaran', 'vacancies.domisili', 'vacancies.insentif', 'vacancies.created_at', 'vacancies.updated_at', 'companies.nama_perusahaan', 'users.foto_profil')
+        ->join('companies', 'companies.id', '=', 'vacancies.company_id')->join('users', 'users.company_id', '=', 'companies.id')
         ->orderBy('vacancies.created_at', 'DESC')
         ->filter(request(['search']))->paginate(6);
-        return response()->json($lokers, 200);
+
+        if($lokers->lastPage() > 1){
+            $getLokers = ['current_page' => $lokers->currentPage(), 'data' => $lokers->unique('pertanyaan_id'), 'next_page_url' => 'http://127.0.0.1:8000/api/forum/timeline?'.($lokers->currentPage()+1)];
+        }else{
+            $getLokers = ['current_page' => $lokers->currentPage(), 'data' => $lokers->unique('pertanyaan_id'), 'next_page_url' => NULL];
+        }
+        if($lokers->lastPage() > 1){
+            $getLokers = ['current_page' => $lokers->currentPage(), 'data' => $lokers->unique('pertanyaan_id'), 'next_page_url' => 'http://127.0.0.1:8000/api/forum/timeline?'.($lokers->currentPage()+1)];
+        }else{
+            $getLokers = ['current_page' => $lokers->currentPage(), 'data' => $lokers->unique('pertanyaan_id'), 'next_page_url' => NULL];
+        }
+        return response()->json($getLokers, 200);
     }
 
     /**
