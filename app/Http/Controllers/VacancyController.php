@@ -24,11 +24,7 @@ class VacancyController extends Controller
         //     'lokers' => Vacancy::latest()->filter(request(['search']))->paginate(6)->withQueryString()
         // ]);
         $lokers = Vacancy::latest()->filter(request(['search']))->paginate(6)->withQueryString();
-        return response()->json([
-            'success' => true,
-            'message' => 'Semua Lowongan Kerja',
-            'data' => $lokers
-        ], 200);
+        return response()->json($lokers, 200);
     }
 
     /**
