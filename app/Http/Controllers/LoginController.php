@@ -48,15 +48,13 @@ class LoginController extends Controller
             return response()
                 ->json(['message' => 'Unauthorized'], 401);
         }
-
         $user = User::where('email', $request['email'])->firstOrFail();
 
         $token = $user->createToken('auth_token')->plainTextToken;
         
         return response()
-            ->json(['message' => 'Hi '.$user->name.', welcome to home','access_token' => $token, 'token_type' => 'Bearer', ]);
+            ->json(['message' => 'Hi '.$user->nama.', welcome to home','access_token' => $token, 'role' => $user->role, 'company_id' => $user->company_id, 'foto_profil' => $user->foto_profil, 'token_type' => 'Bearer', ]);
     }
-
     // public function logout(Request $request)
     // {
     //     Auth::logout();
