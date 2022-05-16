@@ -20,13 +20,25 @@ class AdminController extends Controller
      */
     public function index()
     {
-        return view('admin.rekap', [
-            'title' => "Halaman Admin",
-            'posts' => Post::latest()->get(),
-            'lokers' => Vacancy::latest()->get(),
-            'reports' => Report::latest()->get(),
-            'companies' => Company::orderBy('id')->get(),
-        ]);
+        // return view('admin.rekap', [
+        //     'title' => "Halaman Admin",
+        //     'posts' => Post::latest()->get(),
+        //     'lokers' => Vacancy::latest()->get(),
+        //     'reports' => Report::latest()->get(),
+        //     'companies' => Company::orderBy('id')->get(),
+        // ]);
+        $post = Post::latest()->get();
+        $vacancy = Vacancy::latest()->get();
+        $report = Report::latest()->get();
+        $company = Company::orderBy('id')->get();
+        return response()->json([
+            'success' => true,
+            'message' => 'Semua Lowongan Kerja',
+            'vacancy' => $vacancy,
+            'post' => $post,
+            'report' => $report,
+            'company' => $company
+        ], 200);
     }
 
     /**

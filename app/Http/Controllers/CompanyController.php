@@ -47,9 +47,20 @@ class CompanyController extends Controller
             'alamat' => 'required|max:255',
         ]);
 
-        Company::create($validatedData);
+        $company = Company::create($validatedData);
         // $request->session()->flash('success', 'Registration successful, please login!');
-        return redirect('/company')->with('success', 'Company Verification submitted, please wait for further info!');
+        // return redirect('/company')->with('success', 'Company Verification submitted, please wait for further info!');
+        if ($company) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Company Verification submitted, please wait for further info!',
+            ], 200);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Company Verification failed, try again!',
+            ], 400);
+        }
     }
 
     /**

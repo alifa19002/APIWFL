@@ -47,13 +47,24 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-            Post::create([
-                'judul' => request('judul'),
-                'deskripsi' => request('deskripsi'),
-                'user_id' => request('user_id')
+        $post = Post::create([
+                'judul' => $request->input('judul'),
+                'deskripsi' => $request->input('deskripsi'),
+                'user_id' => $request->input('user_id')
             ]);
 
-            return redirect('/uploadpost')->with('success', 'Postingan diunggah.');
+            // return redirect('/uploadpost')->with('success', 'Postingan diunggah.');
+            if ($post) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Post Berhasil Disimpan!',
+                ], 200);
+            } else {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Post Gagal Disimpan!',
+                ], 400);
+            }
     }
 
 
