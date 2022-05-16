@@ -19,12 +19,11 @@ class PostController extends Controller
         //     "title" => "Sharing",
         //     'posts' => Post::latest()->filter(request(['search']))->paginate(10)->withQueryString()
         // ]);
-        $posts = Post::latest()->filter(request(['search']))->paginate(10)->withQueryString();
-        return response()->json([
-            'success' => true,
-            'message' => 'Semua Postingan Sharing',
-            'data' => $posts
-        ], 200);
+        $posts = Post::select('posts.id', 'posts.user_id', 'posts.judul', 'posts.deskripsi', 'posts.created_at', 'posts.updated_at', 'users.nama', 'users.foto_profil')
+        ->join('users', 'users.id', '=', 'posts.user_id')
+        ->orderBy('posts.created_at', 'DESC')
+        ->filter(request(['search']))->paginate(10)->withQueryString();
+        return response()->json($posts, 200);
     }
     /**
      * Show the form for creating a new resource.
