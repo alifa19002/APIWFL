@@ -86,11 +86,7 @@ class VacancyController extends Controller
         $loker = Vacancy::whereId($id)->first();
 
         if ($loker!=null) {
-            return response()->json([
-                'success' => true,
-                'message' => 'Detail Loker!',
-                'data'    => $loker
-            ], 200);
+            return response()->json($loker, 200);
         } else {
             return response()->json([
                 'success' => false,
