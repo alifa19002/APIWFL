@@ -27,7 +27,9 @@ use App\Models\Vacancy;
 |
 */
 
-// Route::get('/',  [HomeController::class, 'index']);
+Route::get('/',  function () {
+        return view('index');
+    });
 // Route::get('/login', [LoginController::class, 'index'])->name('login')->middleware('guest');
 // Route::post('/login', [LoginController::class, 'authenticate']);
 // Route::post('/logout', [LoginController::class, 'logout']);
