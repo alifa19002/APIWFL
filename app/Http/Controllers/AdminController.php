@@ -101,16 +101,12 @@ class AdminController extends Controller
         // ]);
         $company = Company::whereId($id)->first();
         if ($company!=null) {
-            return response()->json([
-                'success' => true,
-                'message' => 'Detail Perusahaan',
-                'data'    => $company
-            ], 200);
+            return response()->json($company
+            , 200);
         } else {
             return response()->json([
                 'success' => false,
-                'message' => 'Perusahaan Tidak Ditemukan!',
-                'data'    => ''
+                'message' => 'Perusahaan Tidak Ditemukan!'
             ], 404);
         }
     }
