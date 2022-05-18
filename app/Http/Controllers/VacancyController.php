@@ -100,7 +100,7 @@ class VacancyController extends Controller
         // ->whereRaw("`events`.`date` >= '$signupday' AND `events`.`date` <= '$today'")
         // ->whereId($id)->first();
         if ($loker!=null) {
-            return response()->json($loker, 200);
+            return response()->json(['data'    => $loker], 200);
         } else {
             return response()->json([
                 'success' => false,
