@@ -128,7 +128,7 @@ class PostController extends Controller
             // 'user_id' => 'required'
         ];
         $validatedData = $request->validate($rules);
-        $validatedData["user_id"] = auth()->user()->id;
+        $validatedData["user_id"] =  $request->user()->id;
 
         $post = Post::where('id', $post->id)->update($validatedData);
         if ($post) {
