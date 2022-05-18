@@ -123,15 +123,25 @@ class PostController extends Controller
     public function update(Request $request, Post $post)
     {
         $rules = [
-            'judul' => 'required|max:255',
-            'deskripsi' => 'required',
-            'user_id' => 'required'
+            // 'judul' => 'required|max:255',
+            // 'deskripsi' => 'required',
+            // 'user_id' => 'required'
         ];
         $validatedData = $request->validate($rules);
         $validatedData["user_id"] = auth()->user()->id;
 
-        Post::where('id', $post->id)->update($validatedData);
-        return redirect('/profile');
+        $post = Post::where('id', $post->id)->update($validatedData);
+        if ($post) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Post Berhasil Diupdate!',
+            ], 200);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Post Gagal Diupdate!',
+            ], 500);
+        }
     }
 
     /**
