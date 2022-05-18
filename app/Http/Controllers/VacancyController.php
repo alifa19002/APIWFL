@@ -133,23 +133,22 @@ class VacancyController extends Controller
     public function update(Request $request, Vacancy $vacancy)
     {
         $rules = [
-            'posisi' => 'required|max:255',
-            'jobdesc' => 'required',
-            'company_id' => 'required'
+            // 'posisi' => 'required|max:255',
+            // 'jobdesc' => 'required',
+            // 'company_id' => 'required'
         ];
         $validatedData = $request->validate($rules);
-        $validatedData["company_id"] = auth()->user()->id;
 
         $vacancy = Vacancy::where('id', $vacancy->id)->update($validatedData);
         if ($vacancy) {
             return response()->json([
                 'success' => true,
-                'message' => 'Post Berhasil Diupdate!',
+                'message' => 'Loker Berhasil Diupdate!',
             ], 200);
         } else {
             return response()->json([
                 'success' => false,
-                'message' => 'Post Gagal Diupdate!',
+                'message' => 'Loker Gagal Diupdate!',
             ], 500);
         }
     }
