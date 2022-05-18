@@ -130,7 +130,7 @@ class VacancyController extends Controller
      */
 
     //update masi bingung
-    public function update(Request $request, Vacancy $vacancy)
+    public function update(Request $request, $id)
     {
         $rules = [
             'posisi' => $request->input('posisi'),
@@ -143,7 +143,7 @@ class VacancyController extends Controller
         ];
         // $validatedData = $request->validate($rules);
 
-        $vacancy = Vacancy::where('id', $vacancy->id)->update($rules);
+        $vacancy = Vacancy::find($id)->update($request->all());
         if ($vacancy) {
             return response()->json([
                 'success' => true,
