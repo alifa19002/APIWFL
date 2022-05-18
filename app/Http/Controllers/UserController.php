@@ -56,11 +56,11 @@ class UserController extends Controller
     {
         $title = "My Profile";
         $id = $request->user()->id;
-        $user = User::where('id', $id)->first();
+        $profilUser = User::where('id', $id)->first();
         $my_posts = Post::where('user_id', $id)->get();
         // return view('/user/profile', compact(['title', 'user', 'my_posts']));
         return response()->json([
-            'profile' => $user,
+            'profile' => $profilUser,
             'post' => $my_posts], 200);
     }
 

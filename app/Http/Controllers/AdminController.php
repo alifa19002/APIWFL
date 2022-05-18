@@ -32,7 +32,7 @@ class AdminController extends Controller
         $report = Report::latest()->get();
         $vacancy = Vacancy::select('vacancies.id', 'vacancies.company_id', 'vacancies.posisi', 'vacancies.insentif', 'vacancies.min_pengalaman', 'vacancies.jobdesc', 'vacancies.kriteria', 'vacancies.link_pendaftaran', 'vacancies.domisili', 'vacancies.created_at', 'vacancies.updated_at', 'companies.nama_perusahaan', 'users.foto_profil')
         ->join('companies', 'companies.id', '=', 'vacancies.company_id')->join('users', 'users.company_id', '=', 'companies.id')
-        ->orderBy('vacancies.created_at', 'DESC');
+        ->orderBy('vacancies.created_at', 'DESC')->get();
         $company = Company::orderBy('id')->get();
         return response()->json([
             'success' => true,
