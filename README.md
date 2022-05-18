@@ -16,7 +16,8 @@
 | PUT         | /post | Update post| Post Controller | unavailable   |
 | DELETE      | /post/{id}     | Delete post by ID   | Post Controller | unchecked   |
 | POST        | /register | Create New User | Register Controller | unchecked   |
-| GET         | /report/{id} | Create report | Report Controller | unchecked   |
+| GET         | /report/{id} | Edit report | Report Controller | unchecked   |
+| PUT         | /report/{id} | Update report | Report Controller | unchecked   |
 | DELETE      | /report/{id}     | Delete report by ID   | Report Controller | unchecked   |
 | POST        | /report | Create New Report| Report Controller | unchecked   |
 | POST        | /login | Create token auth| Login Controller | unchecked   |
