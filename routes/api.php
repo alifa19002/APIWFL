@@ -40,6 +40,7 @@ Route::put('/loker/{vacancy:id}', 'VacancyController@update');
 Route::get('/post', 'PostController@index');
 Route::post('/post', 'PostController@store');
 Route::get('/post/{id}', 'PostController@show');
+Route::put('/post/{vacancy:id}', 'PostController@update');
 Route::delete('/post/{id}', 'PostController@destroy');
 Route::post('/register', 'RegisterController@store');
 Route::get('/report/{id}', 'ReportController@index');
