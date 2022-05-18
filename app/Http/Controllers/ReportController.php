@@ -93,11 +93,11 @@ class ReportController extends Controller
         }
     }
 
-    public function destroy(Report $report)
+    public function destroy($id)
     {
         // Report::destroy($report->id);
         // return redirect('/admin')->with('success', 'Report has been deleted!');
-        $report = Report::destroy($report->id);
+        $report = Report::destroy($id);
         if ($report) {
             return response()->json([
                 'success' => true,
