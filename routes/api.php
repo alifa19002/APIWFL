@@ -45,6 +45,7 @@ Route::delete('/post/{id}', 'PostController@destroy');
 Route::post('/register', 'RegisterController@store');
 Route::get('/report/{id}', 'ReportController@index');
 Route::post('/report', 'ReportController@store');
+Route::put('/report/{report:id}', 'ReportController@update');
 Route::delete('/report/{id}', 'ReportController@destroy');
 Route::post('/company', 'CompanyController@store');
 Route::get('/home', 'HomeController@index');

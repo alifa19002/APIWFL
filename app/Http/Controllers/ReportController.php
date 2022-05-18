@@ -70,12 +70,23 @@ class ReportController extends Controller
     public function update(Request $request, Report $report)
     {
         $rules = [
-            'alasan' => 'required|max:255',
-            'is_approved' => 'required',
+            // 'alasan' => 'required|max:255',
+            // 'is_approved' => 'required',
         ];
         $validatedData = $request->validate($rules);
-        Report::where('id', $report->id)->update($validatedData);
-        return redirect('/admin');
+        $reports = Report::where('id', $report->id)->update($validatedData);
+        // return redirect('/admin');
+        if ($reports) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Report Berhasil Diupdate!',
+            ], 200);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Report Gagal Diupdate!',
+            ], 500);
+        }
     }
 
     public function destroy(Report $report)
