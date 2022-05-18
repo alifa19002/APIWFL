@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Vacancy;
 use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\Model;
 
 class VacancyController extends Controller
 {
@@ -132,18 +133,21 @@ class VacancyController extends Controller
     //update masi bingung
     public function update(Request $request, $id)
     {
-        $rules = [
-            'posisi' => $request->input('posisi'),
-            'jobdesc' => $request->input('jobdesc'),
-            'kriteria' => $request->input('kriteria'), 
-            'domisili' => $request->input('domisili'),
-            'min_pengalaman' => $request->input('min_pengalaman'),
-            'insentif' => $request->input('insentif'),
-            'link_pendaftaran' => $request->input('link_pendaftaran')
-        ];
+        // $rules = [
+        //     'company_id' => $id,
+        //     'posisi' => $request->input('posisi'),
+        //     'jobdesc' => $request->input('jobdesc'),
+        //     'kriteria' => $request->input('kriteria'), 
+        //     'domisili' => $request->input('domisili'),
+        //     'min_pengalaman' => $request->input('min_pengalaman'),
+        //     'insentif' => $request->input('insentif'),
+        //     'link_pendaftaran' => $request->input('link_pendaftaran')
+        // ];
         // $validatedData = $request->validate($rules);
-
-        $vacancy = Vacancy::find($id)->update($request->all());
+        //     $test = $S
+        $input = $request->all();
+        $vacancy = Vacancy::find($id);
+        $vacancy->update($input);
         if ($vacancy) {
             return response()->json([
                 'success' => true,

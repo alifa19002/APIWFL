@@ -37,7 +37,7 @@ Route::get('/loker', 'VacancyController@index');
 Route::post('/loker', 'VacancyController@store');
 Route::get('/loker/{id}', 'VacancyController@show');
 Route::delete('/loker/{vacancy:id}', 'VacancyController@destroy');
-Route::put('/loker/{vacancy:id}', 'VacancyController@update');
+Route::put('/loker/{id}', 'VacancyController@update');
 Route::get('/post', 'PostController@index');
 Route::post('/post', 'PostController@store');
 Route::get('/post/{id}', 'PostController@show');

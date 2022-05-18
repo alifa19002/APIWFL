@@ -9,7 +9,16 @@ class Vacancy extends Model
 {
     use HasFactory;
     protected $guarded = ['id'];
-
+    protected $fillable = [
+        'posisi',
+        'jobdesc',
+        'kriteria',
+        'domisili',
+        'min_pengalaman',
+        'insentif',
+        'link_pendaftaran',
+        'companya_id',
+    ];
     public function company()
     {
         return $this->belongsTo(Company::class);

@@ -120,17 +120,20 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Post $post)
+    public function update(Request $request, $id)
     {
-        $rules = [
-            // 'judul' => 'required|max:255',
-            // 'deskripsi' => 'required',
-            // 'user_id' => 'required'
-        ];
-        $validatedData = $request->validate($rules);
-        $validatedData["user_id"] =  $request->user()->id;
+        // $rules = [
+        //     // 'judul' => 'required|max:255',
+        //     // 'deskripsi' => 'required',
+        //     // 'user_id' => 'required'
+        // ];
+        // $validatedData = $request->validate($rules);
+        // $validatedData["user_id"] =  $request->user()->id;
 
-        $post = Post::where('id', $post->id)->update($validatedData);
+        // $post = Post::where('id', $post->id)->update($validatedData);
+        $input = $request->all();
+        $post = Post::find($id);
+        $post->update($input);
         if ($post) {
             return response()->json([
                 'success' => true,
