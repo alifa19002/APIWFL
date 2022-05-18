@@ -28,6 +28,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     // });
     // API route for logout user
     Route::post('/logout', 'LoginController@logout');
+    Route::resource('/profile', UserController::class);
+    Route::post('/profile/update', 'UserController@update');
 });
 
 Route::get('/loker', 'VacancyController@index');
@@ -49,6 +51,8 @@ Route::get('/admin', 'AdminController@index');
 Route::post('/admin/company/create', 'AdminController@store');
 Route::get('/admin/company/{id}', 'AdminController@show');
 Route::delete('/admin/company/delete', 'AdminController@index');
+
+
 
 
 

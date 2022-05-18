@@ -62,12 +62,12 @@ class LoginController extends Controller
     //     $request->session()->regenerateToken();
     //     return redirect('/');
     // }
-    public function logout()
+    public function logout(Request $request)
     {
         // auth()->user()->tokens->delete();
-        // $request->user()->currentAccessToken()->delete();
-        Auth::logout();
-        $user = request()->user();
+        // request()->user()->currentAccessToken()->delete();
+        // Auth::logout();
+        $user = $request->user();
         $user->tokens()->where('id', $user->currentAccessToken()->id)->delete();
         return [
             'message' => 'You have successfully logged out and the token was successfully deleted',

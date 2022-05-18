@@ -14,13 +14,15 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $title = "My Profile";
-        $user_id = auth()->user()->id;
+        $user_id = $request->user()->id;
         $profilUser = User::where('id', $user_id)->first();
         $my_posts = Post::where('user_id', $user_id)->get();
-        return view('/user/profile', compact(['title', 'profilUser', 'my_posts']));
+        // return view('/user/profile', compact(['title', 'profilUser', 'my_posts']));
+        return response()->json(['profile' => $profilUser,
+        'post' => $my_posts], 200);
     }
 
     /**
@@ -56,7 +58,10 @@ class UserController extends Controller
         $id = auth()->user()->id;
         $user = User::where('id', $id)->first();
         $my_posts = Post::where('user_id', $id)->get();
-        return view('/user/profile', compact(['title', 'user', 'my_posts']));
+        // return view('/user/profile', compact(['title', 'user', 'my_posts']));
+        return response()->json([
+            'profile' => $user,
+            'post' => $my_posts], 200);
     }
 
     /**
@@ -69,7 +74,8 @@ class UserController extends Controller
     {
         $title = "Edit Profile";
         $profilUser = User::where('username', $username)->first();
-        return view('/user/editProfile', compact(['title', 'profilUser']));
+        // return view('/user/editProfile', compact(['title', 'profilUser']));
+        return response()->json([$profilUser], 200);
     }
 
     /**
@@ -100,16 +106,27 @@ class UserController extends Controller
 
         $validatedData = $request->validate($rules);
 
-        if ($request->file('foto_profil')) {
-            if ($request->oldImage) {
-                Storage::delete($request->oldImage);
-            }
-            $validatedData['foto_profil'] = $request->file('foto_profil')->store('foto-profil');
-        }
+        // if ($request->file('foto_profil')) {
+        //     if ($request->oldImage) {
+        //         Storage::delete($request->oldImage);
+        //     }
+        //     $validatedData['foto_profil'] = $request->file('foto_profil')->store('foto-profil');
+        // }
 
         $validatedData['id'] = $id;
-        User::where('id', $id)->update($validatedData);
-        return redirect('/profile')->with('success', 'Profile updated!');
+        $user = User::where('id', $id)->update($validatedData);
+        // return redirect('/profile')->with('success', 'Profile updated!');
+        if ($user) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Profile updated!',
+            ], 200);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Profile failed to update!',
+            ], 400);
+        }
     }
 
     /**
