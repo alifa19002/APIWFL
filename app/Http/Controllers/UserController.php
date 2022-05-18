@@ -52,10 +52,10 @@ class UserController extends Controller
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function show(User $user)
+    public function show(Request $request, User $user)
     {
         $title = "My Profile";
-        $id = auth()->user()->id;
+        $id = $request->user()->id;
         $user = User::where('id', $id)->first();
         $my_posts = Post::where('user_id', $id)->get();
         // return view('/user/profile', compact(['title', 'user', 'my_posts']));
