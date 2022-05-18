@@ -15,11 +15,15 @@ class ReportController extends Controller
         //     'posts' => Post::where('id', $id)->first(),
         //     'message' => NULL
         // ]);
-        $post = Post::where('id', $id)->first();
+        // idreport userid postinganid alasan is_approved
+        $report = Report::where('id', $id)->first();
+        // $loker = Post::where('posts.id',$id)
+        // ->join('companies', 'companies.id', '=', 'vacancies.company_id')->join('users', 'users.company_id', '=', 'companies.id')
+        // ->select('vacancies.id', 'vacancies.company_id', 'vacancies.posisi', 'vacancies.insentif', 'vacancies.min_pengalaman', 'vacancies.jobdesc', 'vacancies.kriteria', 'vacancies.link_pendaftaran', 'vacancies.domisili', 'vacancies.created_at', 'vacancies.updated_at', 'companies.nama_perusahaan', 'users.foto_profil')->get();
         return response()->json([
             'success' => true,
             'message' => 'Report Posts',
-            'data' => $post
+            'data' => $report
         ], 200);
     }
 
