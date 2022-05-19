@@ -34,6 +34,9 @@ class AdminController extends Controller
         ->join('companies', 'companies.id', '=', 'vacancies.company_id')->join('users', 'users.company_id', '=', 'companies.id')
         ->orderBy('vacancies.created_at', 'DESC')->get();
         $company = Company::orderBy('id')->get();
+        // $company = Company::select('companies.id', 'companies.nama_perusahaan', 'companies.namaCP', 'companies.noCP', 'companies.alamat', 'companies.email', 'companies.is_approved', 'users.id')
+        // ->join('users', 'users.company_id', '=', 'companies.id')
+        // ->orderBy('companies.id')->get();
         return response()->json([
             'success' => true,
             'message' => 'Semua Lowongan Kerja',

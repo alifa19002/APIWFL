@@ -49,6 +49,7 @@ Route::post('/report', 'ReportController@store');
 Route::put('/report/{report:id}', 'ReportController@update');
 Route::delete('/report/{id}', 'ReportController@destroy');
 Route::post('/company', 'CompanyController@store');
+Route::get('/company/{id}', 'CompanyController@show');
 Route::get('/home', 'HomeController@index');
 Route::get('/admin', 'AdminController@index');
 Route::post('/admin/company/create', 'AdminController@store');
