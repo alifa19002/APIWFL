@@ -74,7 +74,8 @@ class AdminController extends Controller
             'role' => $request->input('role'),
             'company_id' => $request->input('company_id')
         ]);
-
+        $vacancy = Company::find($request->input('company_id'));
+        $vacancy->update(['is_approved' => 1]);
         // $validatedData['password'] = Hash::make($validatedData['password']);
 
         // $user = User::create($validatedData);
