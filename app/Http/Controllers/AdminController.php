@@ -64,17 +64,34 @@ class AdminController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        $user = User::create([
-            'nama' => $request->input('nama'),
-            'username' => $request->input('username'),
-            'email' => $request->input('email'),
-            'no_telp' => $request->input('no_telp'),
-            'password' => Hash::make($request->input('password')),
-            'role' => $request->input('role'),
-            'company_id' => $request->input('company_id')
-        ]);
-        $vacancy = Company::find($request->input('company_id'));
+    {   
+//         $input = $request->all();
+//  dd($input);
+        $pass = Hash::make($request->input('password'));
+        $company_id = $request->input('company_id');;
+        // $user = User::create([
+        //     'username' => $request->input('username'),
+        //     'nama' => $request->input('nama'),
+        //     'email' => $request->input('email'),
+        //     'no_telp' => $request->input('no_telp'),
+        //     'password' => $pass,
+        //     'role' => $request->input('role'),
+        //     'company_id' => $company_id
+        // ]);
+        $validatedData = $request->validate([
+                'nama' => 'required|max:255',
+                'username' => ['required', 'min:3', 'max:255', 'unique:users'],
+                'email' => 'required|email:dns|unique:users',
+                'no_telp' => 'required|numeric|digits_between:10,14',
+                'password' => 'required|min:5|max:255',
+                'role' => 'required',
+                'company_id' => 'required'
+            ]);
+        $validatedData['password'] = Hash::make($validatedData['password']);
+        $user = User::create($validatedData);
+        $id = $company_id;
+        $vacancy = Company::find($id);
+
         $vacancy->update(['is_approved' => 1]);
         // $validatedData['password'] = Hash::make($validatedData['password']);
 
