@@ -85,26 +85,26 @@ class UserController extends Controller
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user)
+    public function update(Request $request, $id)
     {
-        $id = $request->user()->id;
-        $profilUser = User::where('id', $id)->first();
-        $rules = [
-            'nama' => 'required|max:255',
-            'no_telp' => 'required|numeric|digits_between:10,14',
-            'jk' => 'required|max:1',
-            'posisi' => 'required|max:255',
-            'perusahaan' => 'required|max:255',
-        ];
+        // $id = $request->user()->id;
+        // $profilUser = User::where('id', $id)->first();
+        // $rules = [
+        //     'nama' => 'required|max:255',
+        //     'no_telp' => 'required|numeric|digits_between:10,14',
+        //     'jk' => 'required|max:1',
+        //     'posisi' => 'required|max:255',
+        //     'perusahaan' => 'required|max:255',
+        // ];
 
-        if ($request->username != $profilUser->username) {
-            $rules['username'] = 'required|min:3|max:255|unique:users';
-        }
-        if ($request->email != $profilUser->email) {
-            $rules['email'] = 'required|email:dns|unique:users';
-        }
+        // if ($request->username != $profilUser->username) {
+        //     $rules['username'] = 'required|min:3|max:255|unique:users';
+        // }
+        // if ($request->email != $profilUser->email) {
+        //     $rules['email'] = 'required|email:dns|unique:users';
+        // }
 
-        $validatedData = $request->validate($rules);
+        // $validatedData = $request->validate($rules);
 
         // if ($request->file('foto_profil')) {
         //     if ($request->oldImage) {
@@ -113,9 +113,12 @@ class UserController extends Controller
         //     $validatedData['foto_profil'] = $request->file('foto_profil')->store('foto-profil');
         // }
 
-        $validatedData['id'] = $id;
-        $user = User::where('id', $id)->update($validatedData);
+        // $validatedData['id'] = $id;
+        // $user = User::where('id', $id)->update($validatedData);
         // return redirect('/profile')->with('success', 'Profile updated!');
+        $input = $request->all();
+        $user = Post::find($id);
+        $user = $user->update($input);
         if ($user) {
             return response()->json([
                 'success' => true,
