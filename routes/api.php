@@ -29,7 +29,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     // API route for logout user
     Route::post('/logout', 'LoginController@logout');
     Route::resource('/profile', UserController::class);
-    Route::post('/profile/update', 'UserController@update');
+    // Route::post('/profile/update', 'UserController@update');
     Route::put('/post/{post:id}', 'PostController@update');
 });
 

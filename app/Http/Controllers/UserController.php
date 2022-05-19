@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
@@ -116,13 +117,21 @@ class UserController extends Controller
         // $validatedData['id'] = $id;
         // $user = User::where('id', $id)->update($validatedData);
         // return redirect('/profile')->with('success', 'Profile updated!');
-        $input = $request->all();
-        $user = Post::find($id);
+        
+        if($request->password == null){
+            $input = $request->except(['password']);
+        }
+        else{
+            $input = $request->all();
+        }
+        $user = User::find($id);
         $user = $user->update($input);
+        $profilUser = User::where('id', $id)->first();
         if ($user) {
             return response()->json([
                 'success' => true,
                 'message' => 'Profile updated!',
+                'data' => $profilUser
             ], 200);
         } else {
             return response()->json([
