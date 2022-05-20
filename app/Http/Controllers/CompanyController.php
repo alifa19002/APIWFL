@@ -113,9 +113,22 @@ class CompanyController extends Controller
      * @param  \App\Models\Company  $company
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Company $company)
+    public function update(Request $request, $id)
     {
-        //
+        $input = $request->all();
+        $company = Company::find($id);
+        $company->update($input);
+        if ($company) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Perusahaan Berhasil Diupdate!',
+            ], 200);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Perusahaan Gagal Diupdate!',
+            ], 500);
+        }
     }
 
     /**
@@ -124,8 +137,19 @@ class CompanyController extends Controller
      * @param  \App\Models\Company  $company
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Company $company)
+    public function destroy($id)
     {
-        //
+        $company = Company::destroy($id);
+        if ($company) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Company has been deleted!',
+            ], 200);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Delete Company has been failed!',
+            ], 500);
+        }
     }
 }
