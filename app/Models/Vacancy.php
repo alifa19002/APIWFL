@@ -17,7 +17,7 @@ class Vacancy extends Model
         'min_pengalaman',
         'insentif',
         'link_pendaftaran',
-        'companya_id',
+        'company_id',
     ];
     public function company()
     {
