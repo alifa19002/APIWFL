@@ -32,7 +32,7 @@ class PostController extends Controller
         //     'posts' => Post::latest()->filter(request(['search']))->paginate(10)->withQueryString()
         // ]);
         $posts = Post::latest()->get();
-        return response()->json($posts, 200);
+        return response()->json(['data' =>$posts], 200);
     }
     /**
      * Show the form for creating a new resource.
