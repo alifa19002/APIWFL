@@ -30,7 +30,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/logout', 'LoginController@logout');
     Route::resource('/profile', UserController::class);
     // Route::post('/profile/update', 'UserController@update');
-    Route::put('/post/{post:id}', 'PostController@update');
+    // Route::put('/post/{post:id}', 'PostController@update');
 });
 
 Route::get('/loker', 'VacancyController@index');
