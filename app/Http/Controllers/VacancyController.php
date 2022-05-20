@@ -70,12 +70,12 @@ class VacancyController extends Controller
         if ($vacancy) {
             return response()->json([
                 'success' => true,
-                'message' => 'Post Berhasil Disimpan!',
+                'message' => 'Loker Berhasil Disimpan!',
             ], 200);
         } else {
             return response()->json([
                 'success' => false,
-                'message' => 'Post Gagal Disimpan!',
+                'message' => 'Loker Gagal Disimpan!',
             ], 400);
         }
     }
