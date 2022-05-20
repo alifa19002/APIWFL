@@ -83,7 +83,7 @@ class PostController extends Controller
         // ]);
         // $post = Post::whereId($id)->first();
         $post = Post::select('posts.id', 'posts.user_id', 'posts.judul', 'posts.deskripsi', 'posts.created_at', 'posts.updated_at', 'users.nama', 'users.foto_profil')
-        ->join('users', 'users.id', '=', 'posts.user_id')->whereId($id)->first();
+        ->join('users', 'users.id', '=', 'posts.user_id')->where('posts.id', $id)->first();
         if ($post) {
             return response()->json([
                 'success' => true,
