@@ -19,9 +19,8 @@ class PostController extends Controller
         //     "title" => "Sharing",
         //     'posts' => Post::latest()->filter(request(['search']))->paginate(10)->withQueryString()
         // ]);
-        $posts = Post::select('posts.id', 'posts.user_id', 'posts.judul', 'posts.deskripsi', 'posts.created_at', 'posts.updated_at', 'users.nama', 'users.foto_profil', 'reports.is_approved')
+        $posts = Post::select('posts.id', 'posts.user_id', 'posts.judul', 'posts.deskripsi', 'posts.created_at', 'posts.updated_at', 'users.nama', 'users.foto_profil')
         ->join('users', 'users.id', '=', 'posts.user_id')
-        ->join('reports', 'reports.postingan_id', '=', 'posts.id')
         ->orderBy('posts.created_at', 'DESC')
         ->filter(request(['search']))->paginate(10)->withQueryString();
         return response()->json($posts, 200);
