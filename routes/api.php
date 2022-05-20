@@ -54,6 +54,7 @@ Route::get('/home', 'HomeController@index');
 Route::get('/admin', 'AdminController@index');
 Route::post('/admin/company/create', 'AdminController@store');
 Route::get('/admin/company/{id}', 'AdminController@show');
+Route::put('/admin/company/{id}', 'AdminController@update');
 Route::delete('/admin/company/{id}', 'AdminController@delete');
 
 

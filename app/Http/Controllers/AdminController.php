@@ -153,9 +153,22 @@ class AdminController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Company $company)
+    public function update(Request $request, $id)
     {
-        //
+        $input = $request->all();
+        $company = Company::find($id);
+        $company->update($input);
+        if ($company) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Perusahaan Berhasil Diupdate!',
+            ], 200);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Perusahaan Gagal Diupdate!',
+            ], 500);
+        }
     }
 
     /**
