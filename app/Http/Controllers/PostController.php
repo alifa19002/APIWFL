@@ -15,11 +15,9 @@ class PostController extends Controller
      */
     public function index()
     {
-        // return view('Posts.posts', [
-        //     "title" => "Sharing",
-        //     'posts' => Post::latest()->filter(request(['search']))->paginate(10)->withQueryString()
-        // ]);
-        $posts = Post::select('posts.id', 'posts.user_id', 'posts.judul', 'posts.deskripsi', 'posts.created_at', 'posts.updated_at', 'users.nama', 'users.foto_profil')
+        $posts = Post::select('posts.id', 'posts.user_id', 'posts.judul',
+                'posts.deskripsi', 'posts.created_at', 'posts.updated_at', 'users.nama',
+                'users.foto_profil')
         ->join('users', 'users.id', '=', 'posts.user_id')
         ->orderBy('posts.created_at', 'DESC')
         ->filter(request(['search']))->paginate(10)->withQueryString();
@@ -60,8 +58,6 @@ class PostController extends Controller
                 'deskripsi' => $request->input('deskripsi'),
                 'user_id' => $request->input('user_id')
             ]);
-
-            // return redirect('/uploadpost')->with('success', 'Postingan diunggah.');
             if ($post) {
                 return response()->json([
                     'success' => true,
@@ -132,15 +128,6 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // $rules = [
-        //     // 'judul' => 'required|max:255',
-        //     // 'deskripsi' => 'required',
-        //     // 'user_id' => 'required'
-        // ];
-        // $validatedData = $request->validate($rules);
-        // $validatedData["user_id"] =  $request->user()->id;
-
-        // $post = Post::where('id', $post->id)->update($validatedData);
         $input = $request->all();
         $post = Post::find($id);
         $post->update($input);
@@ -165,8 +152,6 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
-        // Post::destroy($post->id);
-        // return redirect('/posts')->with('success', 'Post has been deleted!');
         $post = Post::destroy($id);
         if ($post) {
             return response()->json([

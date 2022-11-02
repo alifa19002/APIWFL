@@ -15,26 +15,15 @@ class VacancyController extends Controller
      */
     public function index(Request $request)
     {
-        // $title = 'Lowongan Kerja';
-        // if (request('category')) {
-        //     $title = "Semua Lowongan Kerja";
-        // }
-        // return view('loker.loker', [
-        //     'title' => 'All Events' . $title,
-        //     'active' => 'events',
-        //     'lokers' => Vacancy::latest()->filter(request(['search']))->paginate(6)->withQueryString()
-        // ]);
-        // $lokers = Vacancy::latest()->filter(request(['search']))->paginate(6)->withQueryString();
-        $lokers = Vacancy::select('vacancies.id', 'vacancies.company_id', 'vacancies.posisi', 'vacancies.insentif', 'vacancies.min_pengalaman', 'vacancies.jobdesc', 'vacancies.kriteria', 'vacancies.link_pendaftaran', 'vacancies.domisili', 'vacancies.created_at', 'vacancies.updated_at', 'companies.nama_perusahaan', 'users.foto_profil')
-        ->join('companies', 'companies.id', '=', 'vacancies.company_id')->join('users', 'users.company_id', '=', 'companies.id')
+        $lokers = Vacancy::select('vacancies.id', 'vacancies.company_id',
+                'vacancies.posisi', 'vacancies.insentif', 'vacancies.min_pengalaman',
+                'vacancies.jobdesc', 'vacancies.kriteria', 'vacancies.link_pendaftaran',
+                'vacancies.domisili', 'vacancies.created_at', 'vacancies.updated_at',
+                'companies.nama_perusahaan', 'users.foto_profil')
+        ->join('companies', 'companies.id', '=', 'vacancies.company_id')->join('users',
+            'users.company_id', '=', 'companies.id')
         ->orderBy('vacancies.created_at', 'DESC')
         ->filter(request(['search']))->paginate(6);
-
-        // if($lokers->lastPage() > 1){
-        //     $getLokers = ['current_page' => $lokers->currentPage(), 'data' => $lokers->unique('id'), 'next_page_url' => 'https://apiwfl.herokuapp.com/api/loker?'.($lokers->currentPage()+1)];
-        // }else{
-        //     $getLokers = ['current_page' => $lokers->currentPage(), 'data' => $lokers->unique('id'), 'next_page_url' => NULL];
-        // }
         return response()->json($lokers, 200);
     }
 
@@ -130,21 +119,8 @@ class VacancyController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    //update masi bingung
     public function update(Request $request, $id)
     {
-        // $rules = [
-        //     'company_id' => $id,
-        //     'posisi' => $request->input('posisi'),
-        //     'jobdesc' => $request->input('jobdesc'),
-        //     'kriteria' => $request->input('kriteria'), 
-        //     'domisili' => $request->input('domisili'),
-        //     'min_pengalaman' => $request->input('min_pengalaman'),
-        //     'insentif' => $request->input('insentif'),
-        //     'link_pendaftaran' => $request->input('link_pendaftaran')
-        // ];
-        // $validatedData = $request->validate($rules);
-        //     $test = $S
         $input = $request->all();
         $vacancy = Vacancy::find($id);
         $vacancy->update($input);
