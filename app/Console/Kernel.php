@@ -2,6 +2,8 @@
 
 namespace App\Console;
 
+use Carbon\Carbon;
+use App\Models\Registration;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -16,6 +18,10 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // $schedule->command('inspire')->hourly();
+        $schedule->call(function () {
+            Registration::join('events', 'events.id', '=', 'registrations.event_id')
+                        ->where('events.tanggal_event', '<', Carbon::now())->delete();
+        })->dailyAt('23:59');;
     }
 
     /**

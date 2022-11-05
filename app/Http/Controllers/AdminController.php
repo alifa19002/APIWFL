@@ -28,9 +28,15 @@ class AdminController extends Controller
         //     'companies' => Company::orderBy('id')->get(),
         // ]);
         $post = Post::latest()->get();
-        $vacancy = Vacancy::latest()->get();
+        // $vacancy = Vacancy::latest()->get();
         $report = Report::latest()->get();
+        $vacancy = Vacancy::select('vacancies.id', 'vacancies.company_id', 'vacancies.posisi', 'vacancies.insentif', 'vacancies.min_pengalaman', 'vacancies.jobdesc', 'vacancies.kriteria', 'vacancies.link_pendaftaran', 'vacancies.domisili', 'vacancies.created_at', 'vacancies.updated_at', 'companies.nama_perusahaan', 'users.foto_profil')
+        ->join('companies', 'companies.id', '=', 'vacancies.company_id')->join('users', 'users.company_id', '=', 'companies.id')
+        ->orderBy('vacancies.created_at', 'DESC')->get();
         $company = Company::orderBy('id')->get();
+        // $company = Company::select('companies.id', 'companies.nama_perusahaan', 'companies.namaCP', 'companies.noCP', 'companies.alamat', 'companies.email', 'companies.is_approved', 'users.id')
+        // ->join('users', 'users.company_id', '=', 'companies.id')
+        // ->orderBy('companies.id')->get();
         return response()->json([
             'success' => true,
             'message' => 'Semua Lowongan Kerja',
@@ -58,20 +64,38 @@ class AdminController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
+    {   
+//         $input = $request->all();
+//  dd($input);
+        $pass = Hash::make($request->input('password'));
+        $company_id = $request->input('company_id');;
+        // $user = User::create([
+        //     'username' => $request->input('username'),
+        //     'nama' => $request->input('nama'),
+        //     'email' => $request->input('email'),
+        //     'no_telp' => $request->input('no_telp'),
+        //     'password' => $pass,
+        //     'role' => $request->input('role'),
+        //     'company_id' => $company_id
+        // ]);
         $validatedData = $request->validate([
-            'nama' => 'required|max:255',
-            'username' => ['required', 'min:3', 'max:255', 'unique:users'],
-            'email' => 'required|email:dns|unique:users',
-            'no_telp' => 'required|numeric|digits_between:10,14',
-            'password' => 'required|min:5|max:255',
-            'role' => 'required',
-            'company_id' => 'required'
-        ]);
-
+                'nama' => 'required|max:255',
+                'username' => ['required', 'min:3', 'max:255', 'unique:users'],
+                'email' => 'required|email:dns|unique:users',
+                'no_telp' => 'required|numeric|digits_between:10,14',
+                'password' => 'required|min:5|max:255',
+                'role' => 'required',
+                'company_id' => 'required'
+            ]);
         $validatedData['password'] = Hash::make($validatedData['password']);
-
         $user = User::create($validatedData);
+        $id = $company_id;
+        $vacancy = Company::find($id);
+
+        $vacancy->update(['is_approved' => 1]);
+        // $validatedData['password'] = Hash::make($validatedData['password']);
+
+        // $user = User::create($validatedData);
         // return redirect('/admin')->with('success', 'Company account successfully made!');
         if ($user) {
             return response()->json([
@@ -101,16 +125,12 @@ class AdminController extends Controller
         // ]);
         $company = Company::whereId($id)->first();
         if ($company!=null) {
-            return response()->json([
-                'success' => true,
-                'message' => 'Detail Perusahaan',
-                'data'    => $company
-            ], 200);
+            return response()->json($company
+            , 200);
         } else {
             return response()->json([
                 'success' => false,
-                'message' => 'Perusahaan Tidak Ditemukan!',
-                'data'    => ''
+                'message' => 'Perusahaan Tidak Ditemukan!'
             ], 404);
         }
     }
@@ -133,9 +153,22 @@ class AdminController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Company $company)
+    public function update(Request $request, $id)
     {
-        //
+        $input = $request->all();
+        $company = Company::find($id);
+        $company->update($input);
+        if ($company) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Perusahaan Berhasil Diupdate!',
+            ], 200);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Perusahaan Gagal Diupdate!',
+            ], 500);
+        }
     }
 
     /**

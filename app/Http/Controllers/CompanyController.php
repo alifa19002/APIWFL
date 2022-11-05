@@ -38,16 +38,23 @@ class CompanyController extends Controller
      */
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
-            'user_id' => 'required',
-            'nama_perusahaan' => 'required|max:255',
-            'namaCP' => 'required|max:50',
-            'noCP' => 'required|numeric|digits_between:10,14',
-            'email' => 'required|email:dns|unique:companies',
-            'alamat' => 'required|max:255',
-        ]);
+        // $validatedData = $request->validate([
+        //     'user_id' => 'required',
+        //     'nama_perusahaan' => 'required|max:255',
+        //     'namaCP' => 'required|max:50',
+        //     'noCP' => 'required|numeric|digits_between:10,14',
+        //     'email' => 'required|email:dns|unique:companies',
+        //     'alamat' => 'required|max:255',
+        // ]);
 
-        $company = Company::create($validatedData);
+        $company = Company::create([
+            'user_id' => $request->input('user_id'),
+            'nama_perusahaan' => $request->input('nama_perusahaan'),
+            'namaCP' => $request->input('namaCP'),
+            'noCP' => $request->input('noCP'),
+            'email' => $request->input('email'),
+            'alamat' => $request->input('alamat'),
+        ]);
         // $request->session()->flash('success', 'Registration successful, please login!');
         // return redirect('/company')->with('success', 'Company Verification submitted, please wait for further info!');
         if ($company) {
@@ -69,9 +76,23 @@ class CompanyController extends Controller
      * @param  \App\Models\Company  $company
      * @return \Illuminate\Http\Response
      */
-    public function show(Company $company)
+    public function show($id)
     {
-        //
+        $company = Company::whereId($id)->first();
+
+        if ($company) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Detail Post',
+                'data'    => $company
+            ], 200);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Postingan Tidak Ditemukan!',
+                'data'    => ''
+            ], 404);
+        }
     }
 
     /**
@@ -92,9 +113,22 @@ class CompanyController extends Controller
      * @param  \App\Models\Company  $company
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Company $company)
+    public function update(Request $request, $id)
     {
-        //
+        $input = $request->all();
+        $company = Company::find($id);
+        $company->update($input);
+        if ($company) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Perusahaan Berhasil Diupdate!',
+            ], 200);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Perusahaan Gagal Diupdate!',
+            ], 500);
+        }
     }
 
     /**
@@ -103,8 +137,19 @@ class CompanyController extends Controller
      * @param  \App\Models\Company  $company
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Company $company)
+    public function destroy($id)
     {
-        //
+        $company = Company::destroy($id);
+        if ($company) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Company has been deleted!',
+            ], 200);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Delete Company has been failed!',
+            ], 500);
+        }
     }
 }

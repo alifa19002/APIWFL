@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Vacancy;
 use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\Model;
 
 class VacancyController extends Controller
 {
@@ -12,23 +13,18 @@ class VacancyController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        // $title = 'Lowongan Kerja';
-        // if (request('category')) {
-        //     $title = "Semua Lowongan Kerja";
-        // }
-        // return view('loker.loker', [
-        //     'title' => 'All Events' . $title,
-        //     'active' => 'events',
-        //     'lokers' => Vacancy::latest()->filter(request(['search']))->paginate(6)->withQueryString()
-        // ]);
-        $lokers = Vacancy::latest()->filter(request(['search']))->paginate(6)->withQueryString();
-        return response()->json([
-            'success' => true,
-            'message' => 'Semua Lowongan Kerja',
-            'data' => $lokers
-        ], 200);
+        $lokers = Vacancy::select('vacancies.id', 'vacancies.company_id',
+                'vacancies.posisi', 'vacancies.insentif', 'vacancies.min_pengalaman',
+                'vacancies.jobdesc', 'vacancies.kriteria', 'vacancies.link_pendaftaran',
+                'vacancies.domisili', 'vacancies.created_at', 'vacancies.updated_at',
+                'companies.nama_perusahaan', 'users.foto_profil')
+        ->join('companies', 'companies.id', '=', 'vacancies.company_id')->join('users',
+            'users.company_id', '=', 'companies.id')
+        ->orderBy('vacancies.created_at', 'DESC')
+        ->filter(request(['search']))->paginate(6);
+        return response()->json($lokers, 200);
     }
 
     /**
@@ -63,12 +59,12 @@ class VacancyController extends Controller
         if ($vacancy) {
             return response()->json([
                 'success' => true,
-                'message' => 'Post Berhasil Disimpan!',
+                'message' => 'Loker Berhasil Disimpan!',
             ], 200);
         } else {
             return response()->json([
                 'success' => false,
-                'message' => 'Post Gagal Disimpan!',
+                'message' => 'Loker Gagal Disimpan!',
             ], 400);
         }
     }
@@ -87,14 +83,14 @@ class VacancyController extends Controller
         //     'loker' => $vacancy,
         // ]);
         // $post = Vacancy::latest()->get();
-        $loker = Vacancy::whereId($id)->first();
-
+        // $loker = Vacancy::whereId($id)->first();
+        $loker = Vacancy::where('vacancies.id',$id)
+        ->join('companies', 'companies.id', '=', 'vacancies.company_id')->join('users', 'users.company_id', '=', 'companies.id')
+        ->select('vacancies.id', 'vacancies.company_id', 'vacancies.posisi', 'vacancies.insentif', 'vacancies.min_pengalaman', 'vacancies.jobdesc', 'vacancies.kriteria', 'vacancies.link_pendaftaran', 'vacancies.domisili', 'vacancies.created_at', 'vacancies.updated_at', 'companies.nama_perusahaan', 'users.foto_profil')->get();
+        // ->whereRaw("`events`.`date` >= '$signupday' AND `events`.`date` <= '$today'")
+        // ->whereId($id)->first();
         if ($loker!=null) {
-            return response()->json([
-                'success' => true,
-                'message' => 'Detail Loker!',
-                'data'    => $loker
-            ], 200);
+            return response()->json(['data' => $loker], 200);
         } else {
             return response()->json([
                 'success' => false,
@@ -123,27 +119,20 @@ class VacancyController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    //update masi bingung
-    public function update(Request $request, Vacancy $vacancy)
+    public function update(Request $request, $id)
     {
-        $rules = [
-            'posisi' => 'required|max:255',
-            'jobdesc' => 'required',
-            'company_id' => 'required'
-        ];
-        $validatedData = $request->validate($rules);
-        $validatedData["company_id"] = auth()->user()->id;
-
-        $vacancy = Vacancy::where('id', $vacancy->id)->update($validatedData);
+        $input = $request->all();
+        $vacancy = Vacancy::find($id);
+        $vacancy->update($input);
         if ($vacancy) {
             return response()->json([
                 'success' => true,
-                'message' => 'Post Berhasil Diupdate!',
+                'message' => 'Loker Berhasil Diupdate!',
             ], 200);
         } else {
             return response()->json([
                 'success' => false,
-                'message' => 'Post Gagal Diupdate!',
+                'message' => 'Loker Gagal Diupdate!',
             ], 500);
         }
     }

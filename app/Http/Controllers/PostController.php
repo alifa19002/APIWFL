@@ -15,16 +15,22 @@ class PostController extends Controller
      */
     public function index()
     {
+        $posts = Post::select('posts.id', 'posts.user_id', 'posts.judul',
+                'posts.deskripsi', 'posts.created_at', 'posts.updated_at', 'users.nama',
+                'users.foto_profil')
+        ->join('users', 'users.id', '=', 'posts.user_id')
+        ->orderBy('posts.created_at', 'DESC')
+        ->filter(request(['search']))->paginate(10)->withQueryString();
+        return response()->json($posts, 200);
+    }
+    public function all()
+    {
         // return view('Posts.posts', [
         //     "title" => "Sharing",
         //     'posts' => Post::latest()->filter(request(['search']))->paginate(10)->withQueryString()
         // ]);
-        $posts = Post::latest()->filter(request(['search']))->paginate(10)->withQueryString();
-        return response()->json([
-            'success' => true,
-            'message' => 'Semua Postingan Sharing',
-            'data' => $posts
-        ], 200);
+        $posts = Post::latest()->get();
+        return response()->json(['data' =>$posts], 200);
     }
     /**
      * Show the form for creating a new resource.
@@ -52,8 +58,6 @@ class PostController extends Controller
                 'deskripsi' => $request->input('deskripsi'),
                 'user_id' => $request->input('user_id')
             ]);
-
-            // return redirect('/uploadpost')->with('success', 'Postingan diunggah.');
             if ($post) {
                 return response()->json([
                     'success' => true,
@@ -82,8 +86,9 @@ class PostController extends Controller
         //     'post' => $post,
         //     'latest_post' => Post::latest()->get(),
         // ]);
-        $post = Post::whereId($id)->first();
-
+        // $post = Post::whereId($id)->first();
+        $post = Post::select('posts.id', 'posts.user_id', 'posts.judul', 'posts.deskripsi', 'posts.created_at', 'posts.updated_at', 'users.nama', 'users.foto_profil')
+        ->join('users', 'users.id', '=', 'posts.user_id')->where('posts.id', $id)->first();
         if ($post) {
             return response()->json([
                 'success' => true,
@@ -121,18 +126,22 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Post $post)
+    public function update(Request $request, $id)
     {
-        $rules = [
-            'judul' => 'required|max:255',
-            'deskripsi' => 'required',
-            'user_id' => 'required'
-        ];
-        $validatedData = $request->validate($rules);
-        $validatedData["user_id"] = auth()->user()->id;
-
-        Post::where('id', $post->id)->update($validatedData);
-        return redirect('/profile');
+        $input = $request->all();
+        $post = Post::find($id);
+        $post->update($input);
+        if ($post) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Post Berhasil Diupdate!',
+            ], 200);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Post Gagal Diupdate!',
+            ], 500);
+        }
     }
 
     /**
@@ -141,11 +150,9 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Post $post)
+    public function destroy($id)
     {
-        // Post::destroy($post->id);
-        // return redirect('/posts')->with('success', 'Post has been deleted!');
-        $post = Post::destroy($post->id);
+        $post = Post::destroy($id);
         if ($post) {
             return response()->json([
                 'success' => true,

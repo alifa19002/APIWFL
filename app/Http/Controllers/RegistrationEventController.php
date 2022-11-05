@@ -1,0 +1,100 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use App\Models\Registration;
+
+class RegistrationEventController extends Controller
+{
+    public function store(Request $request)
+    {
+        $register = Registration::create([
+            'event_id' => $request->input('event_id'),
+            'user_id' => $request->input('user_id'),
+            'status_bayar' => 'Menunggu Pembayaran'
+        ]);
+        if ($register) {
+            return response()->json([
+                'success' => true,
+                'message' => 'You have registered to the event!',
+            ], 200);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Registration failed, try again!',
+            ], 400);
+        }
+    }
+    public function show($id)
+    {
+        $register = Registration::select('registrations.id', 'events.nama', 'events.deskripsi',
+                    'events.tanggal_event', 'registrations.status_bayar', 'registrations.bukti_bayar')
+                    ->join('events', 'events.id', '=', 'registrations.event_id')
+                    ->where('registrations.id', $id)->first();
+        if ($register) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Detail Registrasi Event',
+                'data'    => $register
+            ], 200);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Detail Registrasi Tidak Ditemukan!',
+                'data'    => ''
+            ], 404);
+        }
+    }
+    public function update(Request $request, $id)
+    {
+        $input = $request->all();
+        $register = Registration::find($id);
+        $register->update($input);
+        if ($register) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Post Berhasil Diupdate!',
+            ], 200);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Post Gagal Diupdate!',
+            ], 500);
+        }
+    }
+    public function payment(Request $request, $id)
+    {
+        $input = $request->all();
+        $register = Registration::find($id);
+        // $register->update($input);
+        $register->status_bayar = 'Menunggu Konfirmasi';
+        $register->bukti_bayar = $request->input('bukti_bayar');
+        if ($register->save()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Pembayaran telah dilakukan!',
+            ], 200);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Bukti Pembayaran Gagal diupload!',
+            ], 500);
+        }
+    }
+    public function destroy($id)
+    {
+        $register = Registration::destroy($id);
+        if ($register) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Post has been deleted!',
+            ], 200);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Delete Post has been failed!',
+            ], 500);
+        }
+    }
+}

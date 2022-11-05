@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Post;
+use App\Models\Registration;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
@@ -14,13 +16,18 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $title = "My Profile";
-        $user_id = auth()->user()->id;
+        $user_id = $request->user()->id;
         $profilUser = User::where('id', $user_id)->first();
         $my_posts = Post::where('user_id', $user_id)->get();
-        return view('/user/profile', compact(['title', 'profilUser', 'my_posts']));
+        $my_events = Registration::select('registrations.id', 'registrations.status_bayar',
+                    'events.nama', 'events.deskripsi', 'events.tanggal_event')
+                    ->join('events', 'events.id', '=', 'registrations.event_id')
+                    ->where('user_id', $user_id)->get();
+        return response()->json(['profile' => $profilUser,
+        'post' => $my_posts, 'events' => $my_events], 200);
     }
 
     /**
@@ -50,13 +57,15 @@ class UserController extends Controller
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function show(User $user)
+    public function show(Request $request, User $user)
     {
         $title = "My Profile";
-        $id = auth()->user()->id;
-        $user = User::where('id', $id)->first();
+        $id = $request->user()->id;
+        $profilUser = User::where('id', $id)->first();
         $my_posts = Post::where('user_id', $id)->get();
-        return view('/user/profile', compact(['title', 'user', 'my_posts']));
+        return response()->json([
+            'profile' => $profilUser,
+            'post' => $my_posts], 200);
     }
 
     /**
@@ -69,7 +78,8 @@ class UserController extends Controller
     {
         $title = "Edit Profile";
         $profilUser = User::where('username', $username)->first();
-        return view('/user/editProfile', compact(['title', 'profilUser']));
+        // return view('/user/editProfile', compact(['title', 'profilUser']));
+        return response()->json([$profilUser], 200);
     }
 
     /**
@@ -79,37 +89,29 @@ class UserController extends Controller
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user)
-    {
-        $id = $request->user()->id;
+    public function update(Request $request, $id)
+    {   
+        if($request->password == null){
+            $input = $request->except(['password']);
+        }
+        else{
+            $input = $request->all();
+        }
+        $user = User::find($id);
+        $user = $user->update($input);
         $profilUser = User::where('id', $id)->first();
-        $rules = [
-            'nama' => 'required|max:255',
-            'no_telp' => 'required|numeric|digits_between:10,14',
-            'jk' => 'required|max:1',
-            'posisi' => 'required|max:255',
-            'perusahaan' => 'required|max:255',
-        ];
-
-        if ($request->username != $profilUser->username) {
-            $rules['username'] = 'required|min:3|max:255|unique:users';
+        if ($user) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Profile updated!',
+                'data' => $profilUser
+            ], 200);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Profile failed to update!',
+            ], 400);
         }
-        if ($request->email != $profilUser->email) {
-            $rules['email'] = 'required|email:dns|unique:users';
-        }
-
-        $validatedData = $request->validate($rules);
-
-        if ($request->file('foto_profil')) {
-            if ($request->oldImage) {
-                Storage::delete($request->oldImage);
-            }
-            $validatedData['foto_profil'] = $request->file('foto_profil')->store('foto-profil');
-        }
-
-        $validatedData['id'] = $id;
-        User::where('id', $id)->update($validatedData);
-        return redirect('/profile')->with('success', 'Profile updated!');
     }
 
     /**
