@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Hash;
 
 use App\Models\Company;
+use App\Models\Event;
 use Illuminate\Http\Request;
 use App\Models\Post;
+use App\Models\Registration;
 use App\Models\User;
 use App\Models\Report;
 use App\Models\Vacancy;
@@ -31,19 +33,23 @@ class AdminController extends Controller
         // $vacancy = Vacancy::latest()->get();
         $report = Report::latest()->get();
         $vacancy = Vacancy::select('vacancies.id', 'vacancies.company_id', 'vacancies.posisi', 'vacancies.insentif', 'vacancies.min_pengalaman', 'vacancies.jobdesc', 'vacancies.kriteria', 'vacancies.link_pendaftaran', 'vacancies.domisili', 'vacancies.created_at', 'vacancies.updated_at', 'companies.nama_perusahaan', 'users.foto_profil')
-        ->join('companies', 'companies.id', '=', 'vacancies.company_id')->join('users', 'users.company_id', '=', 'companies.id')
-        ->orderBy('vacancies.created_at', 'DESC')->get();
+            ->join('companies', 'companies.id', '=', 'vacancies.company_id')->join('users', 'users.company_id', '=', 'companies.id')
+            ->orderBy('vacancies.created_at', 'DESC')->get();
         $company = Company::orderBy('id')->get();
         // $company = Company::select('companies.id', 'companies.nama_perusahaan', 'companies.namaCP', 'companies.noCP', 'companies.alamat', 'companies.email', 'companies.is_approved', 'users.id')
         // ->join('users', 'users.company_id', '=', 'companies.id')
         // ->orderBy('companies.id')->get();
+        $events = Event::orderBy('id')->get();
+        $event_regs = Registration::orderBy('id')->get();
         return response()->json([
             'success' => true,
             'message' => 'Semua Lowongan Kerja',
             'vacancy' => $vacancy,
             'post' => $post,
             'report' => $report,
-            'company' => $company
+            'company' => $company,
+            'events' => $events,
+            'event_regs' => $event_regs
         ], 200);
     }
 
@@ -64,9 +70,9 @@ class AdminController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {   
-//         $input = $request->all();
-//  dd($input);
+    {
+        //         $input = $request->all();
+        //  dd($input);
         $pass = Hash::make($request->input('password'));
         $company_id = $request->input('company_id');;
         // $user = User::create([
@@ -79,14 +85,14 @@ class AdminController extends Controller
         //     'company_id' => $company_id
         // ]);
         $validatedData = $request->validate([
-                'nama' => 'required|max:255',
-                'username' => ['required', 'min:3', 'max:255', 'unique:users'],
-                'email' => 'required|email:dns|unique:users',
-                'no_telp' => 'required|numeric|digits_between:10,14',
-                'password' => 'required|min:5|max:255',
-                'role' => 'required',
-                'company_id' => 'required'
-            ]);
+            'nama' => 'required|max:255',
+            'username' => ['required', 'min:3', 'max:255', 'unique:users'],
+            'email' => 'required|email:dns|unique:users',
+            'no_telp' => 'required|numeric|digits_between:10,14',
+            'password' => 'required|min:5|max:255',
+            'role' => 'required',
+            'company_id' => 'required'
+        ]);
         $validatedData['password'] = Hash::make($validatedData['password']);
         $user = User::create($validatedData);
         $id = $company_id;
@@ -124,9 +130,11 @@ class AdminController extends Controller
         //     'company' => $company,
         // ]);
         $company = Company::whereId($id)->first();
-        if ($company!=null) {
-            return response()->json($company
-            , 200);
+        if ($company != null) {
+            return response()->json(
+                $company,
+                200
+            );
         } else {
             return response()->json([
                 'success' => false,
