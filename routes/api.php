@@ -57,6 +57,7 @@ Route::post('/admin/company/create', 'AdminController@store');
 Route::get('/admin/company/{id}', 'AdminController@show');
 Route::put('/admin/company/{id}', 'AdminController@update');
 Route::delete('/admin/company/{id}', 'AdminController@delete');
+Route::get('/registration', 'RegistrationEventController@index');
 Route::post('/registration', 'RegistrationEventController@store');
 Route::get('/registration/{id}', 'RegistrationEventController@show');
 Route::put('/registration/{id}', 'RegistrationEventController@update');

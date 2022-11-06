@@ -7,6 +7,11 @@ use App\Models\Registration;
 
 class RegistrationEventController extends Controller
 {
+    public function index()
+    {
+        $regs = Registration::orderBy('created_at', 'DESC')->get();
+        return response()->json($regs, 200);
+    }
     public function store(Request $request)
     {
         $register = Registration::create([
