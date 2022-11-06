@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Str;
-$herokuDb = parse_url(env('DATABASE_URL', "postgres://scgmmqqtoydljc:476bd774d9b8f6a16207f825830f0fb656e58cc695eb94386a89191b3f5b37ed@ec2-18-210-64-223.compute-1.amazonaws.com:5432/d4ppkfnq3nvkdn"));
+// $herokuDb = parse_url(env('DATABASE_URL', "postgres://scgmmqqtoydljc:476bd774d9b8f6a16207f825830f0fb656e58cc695eb94386a89191b3f5b37ed@ec2-18-210-64-223.compute-1.amazonaws.com:5432/d4ppkfnq3nvkdn"));
 return [
 
     /*
@@ -65,15 +65,15 @@ return [
 
         'pgsql' => [
             'driver' => 'pgsql',
-            // 'url' => env('DATABASE_URL'),
-            // 'host' => env('DB_HOST', '127.0.0.1'),
-            // 'database' => env('DB_DATABASE', 'forge'),
-            // 'username' => env('DB_USERNAME', 'forge'),
-            // 'password' => env('DB_PASSWORD', ''),
-            'host'     => $herokuDb['host'],
-            'database' => substr($herokuDb['path'], 1),
-            'username' => $herokuDb['user'],
-            'password' => $herokuDb['pass'],
+            'url' => env('DATABASE_URL'),
+            'host' => env('DB_HOST', '127.0.0.1'),
+            'database' => env('DB_DATABASE', 'forge'),
+            'username' => env('DB_USERNAME', 'forge'),
+            'password' => env('DB_PASSWORD', ''),
+            // 'host'     => $herokuDb['host'],
+            // 'database' => substr($herokuDb['path'], 1),
+            // 'username' => $herokuDb['user'],
+            // 'password' => $herokuDb['pass'],
             'port' => env('DB_PORT', '5432'),
             'charset' => 'utf8',
             'prefix' => '',

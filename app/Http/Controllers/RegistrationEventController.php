@@ -41,8 +41,7 @@ class RegistrationEventController extends Controller
         } else {
             return response()->json([
                 'success' => false,
-                'message' => 'Detail Registrasi Tidak Ditemukan!',
-                'data'    => ''
+                'message' => 'Detail Registrasi Tidak Ditemukan!'
             ], 404);
         }
     }
