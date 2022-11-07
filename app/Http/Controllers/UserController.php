@@ -26,8 +26,10 @@ class UserController extends Controller
                     'events.nama', 'events.deskripsi', 'events.tanggal_event')
                     ->join('events', 'events.id', '=', 'registrations.event_id')
                     ->where('user_id', $user_id)->get();
-        return response()->json(['profile' => $profilUser,
-        'post' => $my_posts, 'events' => $my_events], 200);
+        return response()->json([
+            'profile' => $profilUser,
+            'post' => $my_posts,
+            'events' => $my_events], 200);
     }
 
     /**
