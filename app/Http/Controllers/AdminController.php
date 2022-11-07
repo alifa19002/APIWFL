@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Hash;
 
 use App\Models\Company;
+use App\Models\Event;
 use Illuminate\Http\Request;
 use App\Models\Post;
+use App\Models\Registration;
 use App\Models\User;
 use App\Models\Report;
 use App\Models\Vacancy;
@@ -34,16 +36,17 @@ class AdminController extends Controller
         ->join('companies', 'companies.id', '=', 'vacancies.company_id')->join('users', 'users.company_id', '=', 'companies.id')
         ->orderBy('vacancies.created_at', 'DESC')->get();
         $company = Company::orderBy('id')->get();
-        // $company = Company::select('companies.id', 'companies.nama_perusahaan', 'companies.namaCP', 'companies.noCP', 'companies.alamat', 'companies.email', 'companies.is_approved', 'users.id')
-        // ->join('users', 'users.company_id', '=', 'companies.id')
-        // ->orderBy('companies.id')->get();
+        $event = Event::orderBy('id')->get();
+        $reg = Registration::latest()->get();
         return response()->json([
             'success' => true,
             'message' => 'Semua Lowongan Kerja',
             'vacancy' => $vacancy,
             'post' => $post,
             'report' => $report,
-            'company' => $company
+            'company' => $company,
+            'event' => $event,
+            'regEvent' => $reg
         ], 200);
     }
 
