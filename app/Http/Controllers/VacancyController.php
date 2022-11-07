@@ -27,6 +27,12 @@ class VacancyController extends Controller
         return response()->json($lokers, 200);
     }
 
+    public function all()
+    {
+        $lokers = Vacancy::latest()->limit(3)->get();
+        return response()->json(['data' =>$lokers], 200);
+    }
+
     /**
      * Show the form for creating a new resource.
      *

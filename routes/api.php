@@ -34,6 +34,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 });
 
 Route::get('/loker', 'VacancyController@index');
+Route::get('/lokers', 'VacancyController@all');
 Route::post('/loker', 'VacancyController@store');
 Route::get('/loker/{id}', 'VacancyController@show');
 Route::delete('/loker/{vacancy:id}', 'VacancyController@destroy');
