@@ -11,32 +11,32 @@ class EventController extends Controller
     public function index()
     {
         $events = Event::orderBy('tanggal_event', 'ASC')->get();
-        return response()->json($events, 200);
+        return response()->json(['data' => $events], 200);
     }
     public function store(Request $request)
     {
         $event = Event::create([
-                'nama' => $request->input('nama'),
-                'harga' => $request->input('harga'),
-                'deskripsi' => $request->input('deskripsi'),
-                'tanggal_event' => $request->input('tanggal_event')
-            ]);
-            if ($event) {
-                return response()->json([
-                    'success' => true,
-                    'message' => 'Event Berhasil di Buat!',
-                ], 200);
-            } else {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Event Gagal Di buat!',
-                ], 400);
-            }
+            'nama' => $request->input('nama'),
+            'harga' => $request->input('harga'),
+            'deskripsi' => $request->input('deskripsi'),
+            'tanggal_event' => $request->input('tanggal_event')
+        ]);
+        if ($event) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Event Berhasil di Buat!',
+            ], 200);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Event Gagal Di buat!',
+            ], 400);
+        }
     }
     public function show($id)
     {
-        $event = Event::select('events.id', 'events.nama', 'events.harga','events.deskripsi', 'events.tanggal_event')
-        ->where('events.id', $id)->first();
+        $event = Event::select('events.id', 'events.nama', 'events.harga', 'events.deskripsi', 'events.tanggal_event')
+            ->where('events.id', $id)->first();
         if ($event) {
             return response()->json([
                 'success' => true,
