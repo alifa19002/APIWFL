@@ -35,7 +35,7 @@ class EventController extends Controller
     }
     public function show($id)
     {
-        $event = Event::select('events.id', 'events.nama', 'events.harga','events.deskripsi', 'events.tanggal_event')
+        $event = Event::select('events.id', 'events.nama', 'events.harga','events.deskripsi', 'events.tanggal_event', 'events.created_at')
         ->where('events.id', $id)->first();
         if ($event) {
             return response()->json([
