@@ -7,6 +7,11 @@ use App\Models\Registration;
 
 class RegistrationEventController extends Controller
 {
+    public function index()
+    {
+        $regs = Registration::orderBy('created_at', 'DESC')->get();
+        return response()->json($regs, 200);
+    }
     public function store(Request $request)
     {
         $register = Registration::create([
@@ -41,8 +46,7 @@ class RegistrationEventController extends Controller
         } else {
             return response()->json([
                 'success' => false,
-                'message' => 'Detail Registrasi Tidak Ditemukan!',
-                'data'    => ''
+                'message' => 'Detail Registrasi Tidak Ditemukan!'
             ], 404);
         }
     }

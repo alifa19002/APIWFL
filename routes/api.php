@@ -34,6 +34,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 });
 
 Route::get('/loker', 'VacancyController@index');
+Route::get('/lokers', 'VacancyController@all');
 Route::post('/loker', 'VacancyController@store');
 Route::get('/loker/{id}', 'VacancyController@show');
 Route::delete('/loker/{vacancy:id}', 'VacancyController@destroy');
@@ -57,6 +58,17 @@ Route::post('/admin/company/create', 'AdminController@store');
 Route::get('/admin/company/{id}', 'AdminController@show');
 Route::put('/admin/company/{id}', 'AdminController@update');
 Route::delete('/admin/company/{id}', 'AdminController@delete');
+Route::get('/registration', 'RegistrationEventController@index');
+Route::post('/registration', 'RegistrationEventController@store');
+Route::get('/registration/{id}', 'RegistrationEventController@show');
+Route::put('/registration/{id}', 'RegistrationEventController@update');
+Route::put('/payment/{id}', 'RegistrationEventController@payment');
+Route::delete('/registration/{id}', 'RegistrationEventController@destroy');
+Route::get('/event', 'EventController@index');
+Route::post('/event', 'EventController@store');
+Route::get('/event/{id}', 'EventController@show');
+Route::put('/event/{id}', 'EventController@update');
+Route::delete('/event/{id}', 'EventController@destroy');
 
 
 

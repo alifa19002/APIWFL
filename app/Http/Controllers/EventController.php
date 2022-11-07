@@ -4,15 +4,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Event;
+use Illuminate\Log\Logger;
 
 class EventController extends Controller
 {
     public function index()
     {
-        $events = Event::select('events.id', 'events.nama', 'events.harga',
-                'events.deskripsi', 'events.tanggal_event')
-        ->orderBy('events.created_at', 'DESC')
-        ->filter(request(['search']))->paginate(10)->withQueryString();
+        $events = Event::orderBy('tanggal_event', 'ASC')->get();
         return response()->json($events, 200);
     }
     public function store(Request $request)
