@@ -23,7 +23,7 @@ class UserController extends Controller
         $profilUser = User::where('id', $user_id)->first();
         $my_posts = Post::where('user_id', $user_id)->get();
         $my_events = Registration::select('registrations.id', 'registrations.status_bayar',
-                    'events.nama', 'events.deskripsi', 'events.tanggal_event')
+                    'events.nama', 'events.deskripsi', 'events.tanggal_event', 'events.link_conference')
                     ->join('events', 'events.id', '=', 'registrations.event_id')
                     ->where('user_id', $user_id)->get();
         return response()->json([

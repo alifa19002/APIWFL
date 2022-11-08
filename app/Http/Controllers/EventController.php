@@ -19,7 +19,8 @@ class EventController extends Controller
                 'nama' => $request->input('nama'),
                 'harga' => $request->input('harga'),
                 'deskripsi' => $request->input('deskripsi'),
-                'tanggal_event' => $request->input('tanggal_event')
+                'tanggal_event' => $request->input('tanggal_event'),
+                'link_conference' => $request->input('link_conference')
             ]);
             if ($event) {
                 return response()->json([
@@ -35,7 +36,7 @@ class EventController extends Controller
     }
     public function show($id)
     {
-        $event = Event::select('events.id', 'events.nama', 'events.harga','events.deskripsi', 'events.tanggal_event', 'events.created_at')
+        $event = Event::select('events.id', 'events.nama', 'events.harga','events.deskripsi', 'events.tanggal_event', 'events.link_conference', 'events.created_at')
         ->where('events.id', $id)->first();
         if ($event) {
             return response()->json([
