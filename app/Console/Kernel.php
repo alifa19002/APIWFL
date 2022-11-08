@@ -21,7 +21,7 @@ class Kernel extends ConsoleKernel
         $schedule->call(function () {
             Registration::join('events', 'events.id', '=', 'registrations.event_id')
                         ->where('events.tanggal_event', '<', Carbon::now('Asia/Jakarta'))->delete();
-        })->dailyAt('00:10')
+        })->dailyAt('22:15')
         ->timezone('Asia/Jakarta');
     }
 

@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Company;
+use App\Models\Event;
 use App\Models\User;
 use App\Models\Post;
 use App\Models\Vacancy;
@@ -228,6 +229,37 @@ class DatabaseSeeder extends Seeder
             'user_id' => '3',
             'judul' => 'Resign setelah 3 tahun bekerja',
             'deskripsi' => 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Repudiandae vitae quibusdam architecto ratione sint obcaecati, numquam officiis natus hic nobis nihil blanditiis minus possimus odit, dignissimos quidem tenetur eaque laboriosam quasi esse? A, similique mollitia! Vel, perferendis! Nostrum, rem similique. Necessitatibus est consequuntur reprehenderit explicabo similique repudiandae ad quidem ea quis quisquam deleniti temporibus odio facere iusto ipsam excepturi cumque voluptate sunt quibusdam, consectetur dicta amet doloremque nesciunt? Velit aliquam optio odit quidem delectus facere quaerat saepe, consequatur ullam, qui temporibus nemo sit, alias provident corporis harum ipsa voluptates quae blanditiis? Aliquam doloremque deserunt recusandae porro facilis quasi saepe dolore.',
+        ]);
+
+        Event::create([
+            'nama' => 'Seminar Nasional IFest 2022',
+            'harga' => '15000',
+            'deskripsi' => 'Ini adalah seminar bertaraf internasional yang diselenggarakan oleh Teknik Informatika Universitas Padjajdaran yang diadakan bersamaan dengan Lomba TI dan workshop',
+            'tanggal_event' => '2022-11-21 18:30:00',
+            'link_conference' => 'https://meet.google.com/'
+        ]);
+
+        Event::create([
+            'nama' => 'Technopreneur 2022',
+            'harga' => '50000',
+            'deskripsi' => 'Ini adalah workshop bertaraf internasional yang diselenggarakan oleh Teknik Informatika Universitas Padjajdaran yang diadakan bersamaan dengan Lomba TI dan seminar',
+            'tanggal_event' => '2022-11-21 12:30:00',
+            'link_conference' => 'https://meet.google.com/'
+        ]);
+
+        Event::create([
+            'nama' => 'Seminar Diet',
+            'harga' => '15000',
+            'deskripsi' => 'Seminar yang membahas cara hidup sehat dan cara menurunkan berat badan yang baik dan benar.',
+            'tanggal_event' => '2022-12-12 18:30:00',
+            'link_conference' => 'https://meet.google.com/'
+        ]);
+        Event::create([
+            'nama' => 'TEst buat di hapus',
+            'harga' => '15000',
+            'deskripsi' => 'Seminar yang membahas cara hidup sehat dan cara menurunkan berat badan yang baik dan benar.',
+            'tanggal_event' => '2022-08-11 22:10:00',
+            'link_conference' => 'https://meet.google.com/'
         ]);
     }
 }

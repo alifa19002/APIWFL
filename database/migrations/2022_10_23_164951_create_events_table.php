@@ -19,6 +19,7 @@ class CreateEventsTable extends Migration
             $table->integer('harga');
             $table->text('deskripsi');
             $table->dateTime('tanggal_event');
+            $table->string('link_conference');
             $table->timestamps();
         });
     }
