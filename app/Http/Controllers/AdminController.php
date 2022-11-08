@@ -44,8 +44,9 @@ class AdminController extends Controller
         // $reg = Registration::orderBy('id')->get();
         $reg = Registration::select('registrations.id', 'events.nama', 'events.deskripsi',
             'events.tanggal_event', 'registrations.status_bayar', 'registrations.bukti_bayar',
-            'events.link_conference', 'registrations.created_at')
+            'events.link_conference', 'users.nama AS nama_user')
             ->join('events', 'events.id', '=', 'registrations.event_id')
+            ->join('users', 'users.id', '=', 'registrations.user_id')
             ->orderBy('id')->get();
         return response()->json([
             'success' => true,
