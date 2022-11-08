@@ -20,8 +20,8 @@ class Kernel extends ConsoleKernel
         // $schedule->command('inspire')->hourly();
         $schedule->call(function () {
             Registration::join('events', 'events.id', '=', 'registrations.event_id')
-                        ->where('events.tanggal_event', '<', Carbon::now('Asia/Jakarta'))->delete();
-        })->dailyAt('22:25')
+                        ->where('events.tanggal_event', '<', Carbon::now('Asia/Jakarta')->format('Y-m-d H:i:s'))->delete();
+        })->dailyAt('22:45')
         ->timezone('Asia/Jakarta');
     }
 
