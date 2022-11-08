@@ -11,7 +11,7 @@ class EventController extends Controller
     public function index()
     {
         $events = Event::orderBy('tanggal_event', 'ASC')->get();
-        return response()->json(['data'    => $events], 200);
+        return response()->json(['data' => $events], 200);
     }
     public function store(Request $request)
     {

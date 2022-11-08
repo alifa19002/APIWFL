@@ -37,7 +37,7 @@ class AdminController extends Controller
         ->orderBy('vacancies.created_at', 'DESC')->get();
         $company = Company::orderBy('id')->get();
         $event = Event::orderBy('id')->get();
-        $reg = Registration::latest()->get();
+        $reg = Registration::orderBy('id')->get();
         return response()->json([
             'success' => true,
             'message' => 'Semua Lowongan Kerja',
@@ -70,7 +70,7 @@ class AdminController extends Controller
     {   
 //         $input = $request->all();
 //  dd($input);
-        $pass = Hash::make($request->input('password'));
+        // $pass = Hash::make($request->input('password'));
         $company_id = $request->input('company_id');;
         // $user = User::create([
         //     'username' => $request->input('username'),
