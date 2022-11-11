@@ -35,7 +35,7 @@ class RegistrationEventController extends Controller
     public function show($id)
     {
         $register = Registration::select('users.nama AS nama_lengkap', 'users.no_telp', 'registrations.id',
-                    'registration.user_id', 'events.nama AS nama_event', 'events.deskripsi',
+                    'registrations.user_id', 'events.nama AS nama_event', 'events.deskripsi',
                     'events.tanggal_event', 'events.harga', 'registrations.status_bayar',
                     'registrations.bukti_bayar')
                     ->join('events', 'events.id', '=', 'registrations.event_id')
