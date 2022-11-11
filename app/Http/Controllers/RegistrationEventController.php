@@ -23,6 +23,7 @@ class RegistrationEventController extends Controller
             return response()->json([
                 'success' => true,
                 'message' => 'You have registered to the event!',
+                'id' => $register->id
             ], 200);
         } else {
             return response()->json([
