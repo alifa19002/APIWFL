@@ -33,9 +33,12 @@ class RegistrationEventController extends Controller
     }
     public function show($id)
     {
-        $register = Registration::select('registrations.id', 'events.nama', 'events.deskripsi',
-                    'events.tanggal_event', 'registrations.status_bayar', 'registrations.bukti_bayar')
+        $register = Registration::select('users.nama AS nama_lengkap', 'users.no_telp', 'registrations.id',
+                    'registration.user_id', 'events.nama AS nama_event', 'events.deskripsi',
+                    'events.tanggal_event', 'events.harga', 'registrations.status_bayar',
+                    'registrations.bukti_bayar')
                     ->join('events', 'events.id', '=', 'registrations.event_id')
+                    ->join('users', 'users.id', '=', 'registrations.user_id')
                     ->where('registrations.id', $id)->first();
         if ($register) {
             return response()->json([
@@ -69,7 +72,6 @@ class RegistrationEventController extends Controller
     }
     public function payment(Request $request, $id)
     {
-        $input = $request->all();
         $register = Registration::find($id);
         // $register->update($input);
         $register->status_bayar = 'Menunggu Konfirmasi';
