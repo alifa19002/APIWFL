@@ -62,12 +62,12 @@ class RegistrationEventController extends Controller
         if ($register) {
             return response()->json([
                 'success' => true,
-                'message' => 'Post Berhasil Diupdate!',
+                'message' => 'Registrasi Berhasil Diupdate!',
             ], 200);
         } else {
             return response()->json([
                 'success' => false,
-                'message' => 'Post Gagal Diupdate!',
+                'message' => 'Registrasi Gagal Diupdate!',
             ], 500);
         }
     }
