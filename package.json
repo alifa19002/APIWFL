@@ -22,7 +22,6 @@
         "flowbite": "^1.4.2",
         "jquery": "^3.6.0"
     },
-    {
     "scripts": {
         "deploy": "netlify deploy --prod"
     }
