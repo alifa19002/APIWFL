@@ -104,8 +104,8 @@ class AdminController extends Controller
         $user = User::create($validatedData);
         $id = $company_id;
         $vacancy = Company::find($id);
-
-        $vacancy->update(['is_approved' => 1]);
+        $vacancy->is_approved = 1;
+        $vacancy->save();
         // $validatedData['password'] = Hash::make($validatedData['password']);
 
         // $user = User::create($validatedData);
